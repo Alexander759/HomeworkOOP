@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HomeworkOOP", "HomeworkOOP\HomeworkOOP.vcxproj", "{3BD664D1-1387-4F3E-B7A8-628F05B42106}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BD664D1-1387-4F3E-B7A8-628F05B42106}.Debug|x64.ActiveCfg = Debug|x64
+		{3BD664D1-1387-4F3E-B7A8-628F05B42106}.Debug|x64.Build.0 = Debug|x64
+		{3BD664D1-1387-4F3E-B7A8-628F05B42106}.Debug|x86.ActiveCfg = Debug|Win32
+		{3BD664D1-1387-4F3E-B7A8-628F05B42106}.Debug|x86.Build.0 = Debug|Win32
+		{3BD664D1-1387-4F3E-B7A8-628F05B42106}.Release|x64.ActiveCfg = Release|x64
+		{3BD664D1-1387-4F3E-B7A8-628F05B42106}.Release|x64.Build.0 = Release|x64
+		{3BD664D1-1387-4F3E-B7A8-628F05B42106}.Release|x86.ActiveCfg = Release|Win32
+		{3BD664D1-1387-4F3E-B7A8-628F05B42106}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43BC77C7-A9E0-4742-B53C-333908DED556}
+	EndGlobalSection
+EndGlobal
