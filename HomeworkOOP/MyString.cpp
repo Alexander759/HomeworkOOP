@@ -1,5 +1,6 @@
 #include "MyString.h"
 #include <iostream>
+#include <cstring>
 
 MyString::MyString() {
     this->length = 0;
@@ -42,7 +43,7 @@ MyString& MyString::operator=(const MyString& other) {
 
 MyString& MyString::operator=(MyString&& other) noexcept {
     if (this != &other) {
-        delete[] this->content;
+        this->free();
         this->length = other.length;
         this->content = other.content;
         other.content = nullptr;
@@ -68,12 +69,40 @@ void MyString::setString(const char* str) {
     strcpy_s(this->content, this->length + 1, str);
 }
 
+void MyString::setString(const MyString& other) {
+    this->setString(other.getCString());
+}
+
 const char* MyString::getCString() const {
     return this->content;
 }
 
 size_t MyString::getLength() const {
     return this->length;
+}
+
+bool MyString::operator==(const MyString& other) const {
+    return strcmp(this->content, other.getCString()) == 0;
+}
+
+bool MyString::operator!=(const MyString& other) const {
+    return strcmp(this->content, other.getCString()) != 0;
+}
+
+bool MyString::operator>(const MyString& other) const {
+    return strcmp(this->content, other.getCString()) > 0;
+}
+
+bool MyString::operator<(const MyString& other) const {
+    return strcmp(this->content, other.getCString()) < 0;
+}
+
+bool MyString::operator>=(const MyString& other) const {
+    return strcmp(this->content, other.getCString()) > -1;
+}
+
+bool MyString::operator<=(const MyString& other) const {
+    return strcmp(this->content, other.getCString()) < 1;
 }
 
 MyString& MyString::concat(const MyString& str) {

@@ -12,8 +12,15 @@ public:
 	~MyString();
 
 	void setString(const char* str);
+	void setString(const MyString& other);
 	const char* getCString() const;
 	size_t getLength() const;
+	bool operator==(const MyString& other) const;
+	bool operator!=(const MyString& other) const;
+	bool operator>(const MyString& other) const;
+	bool operator<(const MyString& other) const;
+	bool operator>=(const MyString& other) const;
+	bool operator<=(const MyString& other) const;
 
 	MyString& concat(const MyString& str);
 	
