@@ -130,9 +130,12 @@
     <ClCompile Include="HomeworkOOP.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="MyString.h" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.hpp" />
+    <ClInclude Include="SystemEmail.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
