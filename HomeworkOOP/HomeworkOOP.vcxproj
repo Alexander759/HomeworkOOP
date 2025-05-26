@@ -128,12 +128,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="HomeworkOOP.cpp" />
+    <ClCompile Include="Message.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="MyString.h" />
+    <ClCompile Include="SystemEmail.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Time.h" />
     <ClInclude Include="List.hpp" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="SystemEmail.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
