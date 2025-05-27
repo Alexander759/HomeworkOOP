@@ -1,22 +1,27 @@
 #pragma once
 #include "MyString.h"
 #include "SystemEmail.h"
+#include "Role.h"
 
 class User {
 public:
-	User(const MyString& firstName, const MyString& lastName);
+	User(const MyString& firstName, const MyString& lastName, List<Role> roles);
 	virtual ~User() = default;
 
 	const size_t getId() const;
 	const MyString& getFirstName() const;
 	const MyString& getLastName() const;
+	const List<Role>& getRoles() const;
 
 	void setFirstName(const MyString& newFirstName);
 	void setLastName(const MyString& newLastName);
+	void addRole(Role role);
+	void removeRole(Role role);
 private:
 	static size_t currentId;
 	size_t id;
 	MyString firstName;
 	MyString lastName;
 	SystemEmail systemEmail;
+	List<Role> roles;
 };

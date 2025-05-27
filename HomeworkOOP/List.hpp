@@ -10,6 +10,7 @@ public:
 	List<T>& operator=(List<T>&& other);
 	~List();
 
+	bool contains(const T& item) const;
 	int indexOf(const T& item) const;
 	void add(const T& item);
 	void removeAt(size_t index);
@@ -86,6 +87,15 @@ inline List<T>& List<T>::operator=(List<T>&& other) {
 template<class T>
 inline List<T>::~List() {
 	this->free();
+}
+
+template<class T>
+inline bool List<T>::contains(const T& item) const {
+	if (this->indexOf(item) == -1) {
+		return false;
+	}
+
+	return true;
 }
 
 template<class T>

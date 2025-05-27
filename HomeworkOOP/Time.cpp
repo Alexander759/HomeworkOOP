@@ -44,3 +44,7 @@ int Time::getMonth() const {
 int Time::getYear() const {
 	return this->year;
 }
+
+bool Time::operator==(const Time& other) const {
+	return false;
+}

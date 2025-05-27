@@ -136,6 +136,7 @@
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Role.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="List.hpp" />
     <ClInclude Include="Message.h" />
