@@ -1,3 +1,4 @@
+#pragma once
 #include <stdexcept>
 
 template <class T>
@@ -12,12 +13,14 @@ public:
 
 	bool contains(const T& item) const;
 	int indexOf(const T& item) const;
+	int indexOf(bool (*func)(const T& item));
 	void add(const T& item);
 	void removeAt(size_t index);
 	void remove(const T& item);
 	size_t getLength() const;
 	
 	bool operator==(const List<T>& other) const;
+	bool operator!=(const List<T>& other) const;
 	const T& operator[](size_t index) const;
 	T& operator[](size_t index);
 private:
@@ -110,6 +113,17 @@ inline int List<T>::indexOf(const T& item) const {
 }
 
 template<class T>
+inline int List<T>::indexOf(bool(*func)(const T& item)) {
+	for (size_t i = 0; i < length; i++) {
+		if (func(this->content[i])) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+template<class T>
 inline void List<T>::add(const T& item) {
 	if (this->length == this->capacity) {
 		this->resizeUp();
@@ -167,6 +181,11 @@ inline bool List<T>::operator==(const List<T>& other) const {
 	}
 
 	return true;
+}
+
+template<class T>
+inline bool List<T>::operator!=(const List<T>& other) const {
+	return !(*this == other);
 }
 
 template<class T>

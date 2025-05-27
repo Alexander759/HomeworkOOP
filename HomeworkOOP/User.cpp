@@ -36,6 +36,14 @@ bool User::isInRole(Role role) const {
     return false;
 }
 
+bool User::operator==(const User& user) const {
+    return this->id == user.id;
+}
+
+bool User::operator!=(const User& user) const {
+    return this->id != user.id;
+}
+
 void User::setFirstName(const MyString& newFirstName) {
     this->firstName = newFirstName;
 }
@@ -54,4 +62,8 @@ void User::removeRole(Role role) {
     if (this->roles.contains(role)) {
         this->roles.remove(role);
     }
+}
+
+void User::getNewMessage(const Message* message) {
+    this->systemEmail.getNewMessage(message);
 }

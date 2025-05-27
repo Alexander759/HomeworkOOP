@@ -5,6 +5,7 @@
 
 class User {
 public:
+	User() = default;
 	User(const MyString& firstName, const MyString& lastName, const List<Role>& roles);
 	virtual ~User() = default;
 
@@ -13,11 +14,14 @@ public:
 	const MyString& getLastName() const;
 	const List<Role>& getRoles() const;
 	bool isInRole(Role role) const;
+	bool operator==(const User& user) const;
+	bool operator!=(const User& user) const;
 
 	void setFirstName(const MyString& newFirstName);
 	void setLastName(const MyString& newLastName);
 	void addRole(Role role);
 	void removeRole(Role role);
+	void getNewMessage(const Message* message);
 private:
 	static size_t currentId;
 	size_t id;

@@ -77,6 +77,46 @@ const char* MyString::getCString() const {
     return this->content;
 }
 
+MyString MyString::subStr(size_t start, size_t end) const {
+    if (start > this->length || end > this->length) {
+        throw std::out_of_range("Index out of range");
+    }
+
+    char* newCString = new char[end - start + 1];
+
+    for (size_t i = start, j = 0; i < end; i++, j++) {
+        newCString[j] = this->content[i];
+    }
+    newCString[end - start] = '\0';
+
+    MyString result(newCString);
+    delete[] newCString;
+    return result;
+}
+
+List<MyString> MyString::separate(char separator) const {
+    List<MyString> result;
+
+    size_t currentStart = 0;
+    
+    size_t i;
+    for (i = 0; i < length; i++) {
+        if (this->content[i] == separator) {
+            if (i > currentStart) {
+                result.add(this->subStr(currentStart, i));
+            }
+            currentStart = i + 1;
+        }
+    }
+
+    if (i > currentStart) {
+        result.add(this->subStr(currentStart, i));
+    }
+
+
+    return result;
+}
+
 size_t MyString::getLength() const {
     return this->length;
 }
@@ -143,5 +183,14 @@ void MyString::free() {
 
 std::ostream& operator<<(std::ostream& stream, const MyString& string) {
     stream << string.content;
+    return stream;
+}
+
+std::istream& operator>>(std::istream& stream, MyString& string) {
+    const int MAXINPUTSIZE = 1024;
+    char input[MAXINPUTSIZE];
+    std::cin.getline(input, MAXINPUTSIZE);
+    string.setString(input);
+
     return stream;
 }
