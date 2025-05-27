@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="CommandResponse.cpp" />
     <ClCompile Include="HomeworkOOP.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MyString.cpp" />
@@ -136,7 +138,10 @@
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="CommandResponse.h" />
     <ClInclude Include="Role.h" />
+    <ClInclude Include="System.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="List.hpp" />
     <ClInclude Include="Message.h" />

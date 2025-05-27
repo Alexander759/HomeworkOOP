@@ -36,6 +36,12 @@
     <ClCompile Include="Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CommandResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.hpp">
@@ -54,6 +60,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Role.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

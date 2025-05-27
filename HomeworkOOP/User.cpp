@@ -2,7 +2,7 @@
 
 size_t User::currentId = 1;
 
-User::User(const MyString& firstName, const MyString& lastName, List<Role> roles) {
+User::User(const MyString& firstName, const MyString& lastName, const List<Role>& roles) {
     this->id = currentId;
     currentId++;
     this->setFirstName(firstName);
@@ -24,6 +24,16 @@ const MyString& User::getLastName() const {
 
 const List<Role>& User::getRoles() const {
     return this->roles;
+}
+
+bool User::isInRole(Role role) const {
+    for (size_t i = 0; i < this->roles.getLength(); i++) {
+        if (role == this->roles[i]) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void User::setFirstName(const MyString& newFirstName) {
