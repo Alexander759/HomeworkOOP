@@ -279,3 +279,23 @@ CommandResponse SystemFunctions::enroll(System& system, const List<MyString>& ar
     return CommandResponse(true, MyString("Successfully enrolled in ") + course.getName() + "!");
 }
 
+bool SystemFunctions::validateAssignHomework(const List<MyString>& args) {
+    return args.getLength() == 2;
+}
+
+CommandResponse SystemFunctions::assignHomework(System& system, const List<MyString>& args) {
+    if (system.getCourses().getLength() == 0) {
+        return CommandResponse(false, "Course not found");
+    }
+
+    Course& course = system.getCourses().FirstOrDefault([args](const Course& course) -> bool {return course.getName() == args[0]; });
+
+    if (!course.getTeacherIds().contains(system.getUser().getId())) {
+        return CommandResponse(false, "You are not in the course");
+    }
+
+    Assignment assignment(args[1], course.getCreatorId());
+
+    system.getAssignments().add(assignment);
+    return CommandResponse(true, "Successfully created a new assignment!");
+}

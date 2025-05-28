@@ -5,15 +5,16 @@
 class Assignment {
 public:
 	Assignment();
-	Assignment(size_t courseId);
+	Assignment(const MyString& title, size_t courseId);
 
-	const List<size_t>& getAssignmentSolutionsIds() const;
-	void addSolution(size_t assignmentSolutionId);
+	size_t getId() const;
+	const MyString& getName() const;
+	void setName(const MyString& name);
 
 private:
 	static size_t currentId;
 
 	size_t id;
 	size_t courseId;
-	List<size_t> solutionIds;
+	MyString name;
 };

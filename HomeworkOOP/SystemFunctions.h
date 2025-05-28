@@ -44,4 +44,7 @@ public:
 	static bool validateEnroll(const List<MyString>& args);
 	static CommandResponse enroll(System& system, const List<MyString>& args);
 
+
+	static bool validateAssignHomework(const List<MyString>& args);
+	static CommandResponse assignHomework(System& system, const List<MyString>& args);
 };

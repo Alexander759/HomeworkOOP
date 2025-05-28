@@ -90,5 +90,10 @@ int main() {
 	enroll.addRole(Role::Student);
 	app.getCommands().add(enroll);
 
+	Command assignHomework("assign_homework", "",
+		SystemFunctions::validateAssignHomework, SystemFunctions::assignHomework, List<Role>());
+	assignHomework.addRole(Role::Student);
+	app.getCommands().add(assignHomework);
+
 	app.start();
 }

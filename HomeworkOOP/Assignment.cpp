@@ -7,17 +7,22 @@ Assignment::Assignment() {
 	currentId++;
 }
 
-Assignment::Assignment(size_t courseId) {
+Assignment::Assignment(const MyString& name, size_t courseId) {
 	this->id = currentId;
 	currentId++;
 
+	this->name = name;
 	this->courseId = courseId;
 }
 
-const List<size_t>& Assignment::getAssignmentSolutionsIds() const {
-	return this->solutionIds;
+size_t Assignment::getId() const {
+	return this->id;
 }
 
-void Assignment::addSolution(size_t assignmentSolutionId) {
-	this->solutionIds.add(assignmentSolutionId);
+const MyString& Assignment::getName() const {
+	return this->name;
+}
+
+void Assignment::setName(const MyString& name) {
+	this->name = name;
 }

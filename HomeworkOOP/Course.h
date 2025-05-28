@@ -3,9 +3,10 @@
 
 class Course {
 public:
-	Course() = default;
+	Course();
 	Course(const MyString& name, const MyString& password, size_t creatorId);
 
+	size_t getId() const;
 	const MyString& getName() const;
 	const MyString& getPassword() const;
 	size_t getCreatorId() const;
@@ -20,6 +21,9 @@ public:
 	void setName(const MyString& name);
 	void setPassword(const MyString& password);
 private:
+	static size_t currentId;
+
+	size_t id;
 	MyString name;
 	MyString password;
 	size_t creatorId;
