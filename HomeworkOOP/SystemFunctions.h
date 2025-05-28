@@ -31,4 +31,10 @@ public:
 
 	static bool validateChangePassword(const List<MyString>& args);
 	static CommandResponse changePassword(System& system, const List<MyString>& args);
+
+	static bool validateCreateCourse(const List<MyString>& args);
+	static CommandResponse createCourse(System& system, const List<MyString>& args);
+
+	static bool validateAddToCourse(const List<MyString>& args);
+	static CommandResponse addToCourse(System& system, const List<MyString>& args);
 };

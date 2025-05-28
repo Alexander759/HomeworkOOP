@@ -12,7 +12,6 @@ System::~System() {
 }
 
 void System::start() {
-    
     while (true) {
         List<MyString> commandList = CommandReader::readCommand();
     

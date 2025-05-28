@@ -178,3 +178,46 @@ CommandResponse SystemFunctions::changePassword(System& system, const List<MyStr
     return CommandResponse(true, "Password changed successfully!");
 }
 
+bool SystemFunctions::validateCreateCourse(const List<MyString>& args) {
+    return args.getLength() == 2;
+}
+
+CommandResponse SystemFunctions::createCourse(System& system, const List<MyString>& args) {
+    if (system.getCourses()
+        .indexOf([args](const Course& course) -> bool {return args[0] == course.getName(); }) != -1) {
+        return CommandResponse(false, "Course with this name already exists");
+    }
+
+    Course course(args[0], args[1], system.getUser().getId());
+
+    system.getCourses().add(course);
+    return CommandResponse(true, "");
+}
+
+bool SystemFunctions::validateAddToCourse(const List<MyString>& args) {
+    return args.getLength() == 2 && args[1].isNumber();
+}
+
+CommandResponse SystemFunctions::addToCourse(System& system, const List<MyString>& args) {
+    Course& course = system.getCourses().FirstOrDefault([args](const Course& course) -> bool {return course.getName() == args[0]; });
+
+    if (course.getName() != args[0]) {
+        return CommandResponse(false, "Course not found");
+    }
+
+    size_t studentId = atoi(args[1].getCString());
+    User student = system.getUsers().FirstOrDefault([studentId](const User& user) -> bool {return user.getId() == studentId; });
+    
+    if (!student.isInRole(Role::Student)) {
+        return CommandResponse(false, "Adding non students is not allowed"); // ?????
+
+    }
+
+    if (student.getId() != studentId) {
+        return CommandResponse(false, "Student not found");
+    }
+
+    course.getStudentIds().add(studentId);
+    return CommandResponse(true, "");
+}
+

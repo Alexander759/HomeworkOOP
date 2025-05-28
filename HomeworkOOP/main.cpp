@@ -75,5 +75,10 @@ int main() {
 	changePassword.addRole(Role::Student);
 	app.getCommands().add(changePassword);
 
+	Command createCourse("create_course", "",
+		SystemFunctions::validateCreateCourse, SystemFunctions::createCourse, List<Role>());
+	createCourse.addRole(Role::Teacher);
+	app.getCommands().add(createCourse);
+
 	app.start();
 }
