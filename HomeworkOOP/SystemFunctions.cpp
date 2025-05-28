@@ -242,3 +242,4 @@ CommandResponse SystemFunctions::enroll(System& system, const List<MyString>& ar
     course.getStudentIds().add(system.getUser().getId());
     return CommandResponse(true, MyString("Successfully enrolled in ") + course.getName() + "!");
 }
+
