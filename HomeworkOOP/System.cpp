@@ -31,7 +31,11 @@ void System::start() {
 
         commandList.removeAt(0);
 
-        std::cout << command.run(*this, commandList).getMessage() << std::endl;
+        CommandResponse response = command.run(*this, commandList);
+
+        if (response.getMessage() != "") {
+            std::cout << response.getMessage() << std::endl;
+        }
     }
 }
 

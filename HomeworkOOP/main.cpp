@@ -33,9 +33,16 @@ int main() {
 		SystemFunctions::validateLogout, SystemFunctions::logout, guest));
 	app.getCommands().add(logout);
 
-	Command sendToAll("send_to_all", "Sends emails",
+	Command messageToAll("message_all", "Sends emails",
 		SystemFunctions::validateMessageToAllArgs, SystemFunctions::messageToAll, adminList);
-	app.getCommands().add(sendToAll);
+	app.getCommands().add(messageToAll);
+
+	Command message("message", "",
+		SystemFunctions::validateMessageArgs, SystemFunctions::message, List<Role>());
+	message.addRole(Role::Admin);
+	message.addRole(Role::Teacher);
+	message.addRole(Role::Student);
+	app.getCommands().add(message);
 
 	Command mailBox("mailbox", "", 
 		SystemFunctions::validateMailBox, SystemFunctions::mailBox, adminList);

@@ -22,7 +22,40 @@ CommandResponse SystemFunctions::messageToAll(System& system, const List<MyStrin
         }
     }
     
-    return CommandResponse(true, "Success");
+    return CommandResponse(true, "");
+}
+
+bool SystemFunctions::validateMessageArgs(const List<MyString>& args) {
+    return args.getLength() >= 2 && args[0].isNumber();
+}
+
+CommandResponse SystemFunctions::message(System& system, const List<MyString>& args) {
+    size_t id = atoi(args[0].getCString());
+
+    User& sender = system.getUser();
+    /*if (sender.getId() == id) {
+        return CommandResponse(false, "User shouldn't send message to himeself");
+    }???*/
+    
+    User& receiver = system.getUsers().FirstOrDefault([id](const User& u) -> bool {return u.getId() == id; });
+
+    if (receiver.getId() != id) {
+        return CommandResponse(false, "User not found");
+    }
+
+    MyString messageContent;
+
+    for (size_t i = 1; i < args.getLength(); i++) {
+        messageContent += args[i] + " ";
+    }
+
+    messageContent = messageContent.subStr(0, messageContent.getLength() - 1);
+
+    Message message(sender.getId(), messageContent);
+    system.getMessages().add(message);
+    receiver.getMailBox().getNewMessage(message.getId());
+
+    return CommandResponse(true, "");
 }
 
 bool SystemFunctions::validateLogin(const List<MyString>& args) {

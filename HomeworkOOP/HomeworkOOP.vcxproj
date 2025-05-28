@@ -130,6 +130,7 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandReader.cpp" />
     <ClCompile Include="CommandResponse.cpp" />
+    <ClCompile Include="Course.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MyString.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandReader.h" />
     <ClInclude Include="CommandResponse.h" />
+    <ClInclude Include="Course.h" />
     <ClInclude Include="Role.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Time.h" />

@@ -8,6 +8,9 @@ public:
 	static bool validateMessageToAllArgs(const List<MyString>& args);
 	static CommandResponse messageToAll(System& system, const List<MyString>& args);
 
+	static bool validateMessageArgs(const List<MyString>& args);
+	static CommandResponse message(System& system, const List<MyString>& args);
+
 	static bool validateLogin(const List<MyString>& args);
 	static CommandResponse login(System& system, const List<MyString>& args);
 
