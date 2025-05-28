@@ -35,6 +35,10 @@ const SystemEmail& User::getMailBox() const {
     return this->systemEmail;
 }
 
+SystemEmail& User::getMailBox() {
+    return this->systemEmail;
+}
+
 bool User::isInRole(Role role) const {
     for (size_t i = 0; i < this->roles.getLength(); i++) {
         if (role == this->roles[i]) {

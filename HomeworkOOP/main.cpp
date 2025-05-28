@@ -37,11 +37,18 @@ int main() {
 		SystemFunctions::validateMessageToAllArgs, SystemFunctions::messageToAll, adminList);
 	app.getCommands().add(sendToAll);
 
-	Command mailBox("mailBox", "", 
+	Command mailBox("mailbox", "", 
 		SystemFunctions::validateMailBox, SystemFunctions::mailBox, adminList);
 	mailBox.addRole(Role::Student);
 	mailBox.addRole(Role::Teacher);
 	app.getCommands().add(mailBox);
+
+	Command clearMailBox("clear_mailbox", "",
+		SystemFunctions::validateClearMailBox, SystemFunctions::clearMailBox, List<Role>());
+	clearMailBox.addRole(Role::Admin);
+	clearMailBox.addRole(Role::Teacher);
+	clearMailBox.addRole(Role::Student);
+	app.getCommands().add(clearMailBox);
 
 	app.start();
 }

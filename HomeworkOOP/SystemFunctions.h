@@ -16,4 +16,8 @@ public:
 
 	static bool validateMailBox(const List<MyString>& args);
 	static CommandResponse mailBox(System& system, const List<MyString>& args);
+
+	static bool validateClearMailBox(const List<MyString>& args);
+	static CommandResponse clearMailBox(System& system, const List<MyString>& args);
+
 };

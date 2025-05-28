@@ -15,6 +15,7 @@ public:
 	const MyString& getPassword() const;
 	const List<Role>& getRoles() const;
 	const SystemEmail& getMailBox() const;
+	SystemEmail& getMailBox();
 	bool isInRole(Role role) const;
 	bool operator==(const User& user) const;
 	bool operator!=(const User& user) const;

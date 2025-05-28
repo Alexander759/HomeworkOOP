@@ -95,3 +95,12 @@ CommandResponse SystemFunctions::mailBox(System& system, const List<MyString>& a
     return CommandResponse(true, responseContent);
 }
 
+bool SystemFunctions::validateClearMailBox(const List<MyString>& args) {
+    return args.getLength() == 0;
+}
+
+CommandResponse SystemFunctions::clearMailBox(System& system, const List<MyString>& args) {
+    system.getUser().getMailBox().getMessagesReceivedIds().clear();
+    return CommandResponse(true, "Mailbox cleared");
+}
+

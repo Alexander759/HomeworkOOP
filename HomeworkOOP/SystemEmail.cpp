@@ -13,6 +13,14 @@ const List<size_t>& SystemEmail::getMessagesSendIds() const {
     return this->messagesSendIds;
 }
 
+List<size_t>& SystemEmail::getMessagesSendIds() {
+    return this->messagesSendIds;
+}
+
 const List<size_t>& SystemEmail::getMessagesReceivedIds() const {
+    return this->messagesReceivedIds;
+}
+
+List<size_t>& SystemEmail::getMessagesReceivedIds() {
     return this->messagesReceivedIds;
 }
