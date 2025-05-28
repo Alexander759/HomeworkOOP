@@ -26,4 +26,6 @@ public:
 	static bool validateAddStudent(const List<MyString>& args);
 	static CommandResponse addStudent(System& system, const List<MyString>& args);
 
+	static bool validateChangePassword(const List<MyString>& args);
+	static CommandResponse changePassword(System& system, const List<MyString>& args);
 };

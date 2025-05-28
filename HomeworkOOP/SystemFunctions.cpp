@@ -132,3 +132,16 @@ CommandResponse SystemFunctions::addStudent(System& system, const List<MyString>
         + student.getLastName() + " with ID " + student.getId());
 }
 
+bool SystemFunctions::validateChangePassword(const List<MyString>& args) {
+    return args.getLength() == 2;
+}
+
+CommandResponse SystemFunctions::changePassword(System& system, const List<MyString>& args) {
+    if (system.getUser().getPassword() != args[0]) {
+        return CommandResponse(false, "Wrong current password");
+    }
+
+    system.getUser().setPassword(args[1]);
+    return CommandResponse(true, "Password changed successfully!");
+}
+

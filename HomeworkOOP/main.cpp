@@ -61,5 +61,12 @@ int main() {
 	addStudent.addRole(Role::Admin);
 	app.getCommands().add(addStudent);
 
+	Command changePassword("change_password", "",
+		SystemFunctions::validateChangePassword, SystemFunctions::changePassword, List<Role>());
+	changePassword.addRole(Role::Admin);
+	changePassword.addRole(Role::Teacher);
+	changePassword.addRole(Role::Student);
+	app.getCommands().add(changePassword);
+
 	app.start();
 }
