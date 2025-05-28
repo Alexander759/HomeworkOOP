@@ -39,6 +39,7 @@ int main() {
 
 	Command mailBox("mailbox", "", 
 		SystemFunctions::validateMailBox, SystemFunctions::mailBox, adminList);
+	mailBox.addRole(Role::Admin);
 	mailBox.addRole(Role::Student);
 	mailBox.addRole(Role::Teacher);
 	app.getCommands().add(mailBox);
@@ -49,6 +50,11 @@ int main() {
 	clearMailBox.addRole(Role::Teacher);
 	clearMailBox.addRole(Role::Student);
 	app.getCommands().add(clearMailBox);
+
+	Command addTeacher("add_teacher", "",
+		SystemFunctions::validateAddTeacher, SystemFunctions::addTeacher, List<Role>());
+	addTeacher.addRole(Role::Admin);
+	app.getCommands().add(addTeacher);
 
 	app.start();
 }

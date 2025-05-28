@@ -8,6 +8,26 @@ MyString::MyString() {
     this->content[0] = '\0';
 }
 
+MyString::MyString(size_t num) {
+    size_t numCopy = num;
+
+    int digitsOfNum = 0;
+    do {
+        numCopy /= 10;
+        digitsOfNum++;
+    } while (numCopy > 0);
+
+    this->length = digitsOfNum;
+    this->content = new char[this->length + 1];
+    this->content[this->length] = '\0';
+    for (size_t i = 0; i < length; i++) {
+        this->content[i] = num % 10 + '0';
+        num /= 10;
+    }
+
+    this->reverse();
+}
+
 MyString::MyString(const char* str) {
     if (str == nullptr) {
         this->length = 0;
@@ -178,6 +198,17 @@ MyString& MyString::concat(const MyString& str) {
     delete[] this->content;
     this->length = newLength;
     this->content = newContent;
+    return *this;
+}
+
+MyString& MyString::reverse() {
+    char swap;
+    for (size_t i = 0; i < length / 2; i++) {
+        swap = this->content[i];
+        this->content[i] = this->content[length - 1 - i];
+        this->content[length - 1 - i] = swap;
+    }
+
     return *this;
 }
 

@@ -5,6 +5,7 @@
 class MyString {
 public:
 	MyString();
+	MyString(size_t num);
 	MyString(const char* other);
 	MyString(const MyString& str);
 	MyString(MyString&& str) noexcept;
@@ -27,6 +28,7 @@ public:
 	bool isNumber() const;
 
 	MyString& concat(const MyString& str);
+	MyString& reverse();
 	
 	MyString operator+(const MyString& str) const;
 	MyString& operator+=(const MyString& str);

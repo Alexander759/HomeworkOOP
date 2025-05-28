@@ -20,4 +20,7 @@ public:
 	static bool validateClearMailBox(const List<MyString>& args);
 	static CommandResponse clearMailBox(System& system, const List<MyString>& args);
 
+
+	static bool validateAddTeacher(const List<MyString>& args);
+	static CommandResponse addTeacher(System& system, const List<MyString>& args);
 };

@@ -104,3 +104,17 @@ CommandResponse SystemFunctions::clearMailBox(System& system, const List<MyStrin
     return CommandResponse(true, "Mailbox cleared");
 }
 
+bool SystemFunctions::validateAddTeacher(const List<MyString>& args) {
+    return args.getLength() == 3;
+}
+
+CommandResponse SystemFunctions::addTeacher(System& system, const List<MyString>& args) {
+    User user(args[0], args[1], args[2], List<Role>());
+    user.addRole(Role::Teacher);
+    user.addRole(Role::Guest);
+    system.getUsers().add(user);
+
+    return CommandResponse(true, MyString("Added Teacher ") + user.getFirstName() 
+        + user.getLastName() + " with Id " + user.getId());
+}
+
