@@ -221,3 +221,24 @@ CommandResponse SystemFunctions::addToCourse(System& system, const List<MyString
     return CommandResponse(true, "");
 }
 
+bool SystemFunctions::validateEnroll(const List<MyString>& args) {
+    return args.getLength() == 2;
+}
+
+CommandResponse SystemFunctions::enroll(System& system, const List<MyString>& args) {
+    if (system.getCourses().getLength() == 0) {
+        return CommandResponse(false, "Course not found");
+    }
+
+    Course& course = system.getCourses().FirstOrDefault([args](const Course& course) -> bool {return course.getName() == args[0]; });
+    if (course.getName() != args[0]) {
+        return CommandResponse(false, "Course not found");
+    }
+
+    if (course.getPassword() != args[1]) {
+        return CommandResponse(false, "Wrong password");
+    }
+
+    course.getStudentIds().add(system.getUser().getId());
+    return CommandResponse(true, MyString("Successfully enrolled in ") + course.getName() + "!");
+}

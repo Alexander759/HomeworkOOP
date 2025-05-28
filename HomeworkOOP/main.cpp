@@ -80,5 +80,10 @@ int main() {
 	createCourse.addRole(Role::Teacher);
 	app.getCommands().add(createCourse);
 
+	Command enroll("enroll", "",
+		SystemFunctions::validateEnroll, SystemFunctions::enroll, List<Role>());
+	enroll.addRole(Role::Student);
+	app.getCommands().add(enroll);
+
 	app.start();
 }

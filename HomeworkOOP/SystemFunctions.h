@@ -37,4 +37,7 @@ public:
 
 	static bool validateAddToCourse(const List<MyString>& args);
 	static CommandResponse addToCourse(System& system, const List<MyString>& args);
+
+	static bool validateEnroll(const List<MyString>& args);
+	static CommandResponse enroll(System& system, const List<MyString>& args);
 };
