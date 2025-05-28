@@ -51,6 +51,18 @@ const List<Command>& System::getCommands() const {
     return this->commands;
 }
 
+const List<Course>& System::getCourses() const {
+    return this->courses;
+}
+
+const List<Assignment>& System::getAssignments() const {
+    return this->assignments;
+}
+
+const List<AssignmentSolutions>& System::getAssignmentSolutions() const {
+    return this->assignmentSolutions;
+}
+
 const List<Role> System::getCurrentUserRoles() const {
     if (!this->isCurrentlyLoggedIn) {
         List<Role> result;
@@ -101,5 +113,17 @@ List<Message>& System::getMessages() {
 
 List<Command>& System::getCommands() {
     return this->commands;
+}
+
+List<Course>& System::getCourses() {
+    return this->courses;
+}
+
+List<Assignment>& System::getAssignments() {
+    return this->assignments;
+}
+
+List<AssignmentSolutions>& System::getAssignmentSolutions() {
+    return this->assignmentSolutions;
 }
 

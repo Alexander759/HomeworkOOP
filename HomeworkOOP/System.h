@@ -3,6 +3,8 @@
 #include "Message.h"
 #include "Command.h"
 #include "CommandResponse.h"
+#include "Course.h"
+#include "Assignment.h"
 
 class System {
 public:
@@ -14,6 +16,10 @@ public:
 	const List<User>& getUsers() const;
 	const List<Message>& getMessages() const;
 	const List<Command>& getCommands() const;
+	const List<Course>& getCourses() const;
+	const List<Assignment>& getAssignments() const;
+	const List<AssignmentSolutions>& getAssignmentSolutions() const;
+	
 	const List<Role> getCurrentUserRoles() const;
 
 	bool getIsCurrentlyLoggedIn() const;
@@ -26,10 +32,17 @@ public:
 	List<User>& getUsers();
 	List<Message>& getMessages();
 	List<Command>& getCommands();
+	List<Course>& getCourses();
+	List<Assignment>& getAssignments();
+	List<AssignmentSolutions>& getAssignmentSolutions();
+
 private:
 	bool isCurrentlyLoggedIn;
 	size_t currentlyLoggedInId;
 	List<User> users;
 	List<Message> messages;
 	List<Command> commands;
+	List<Course> courses;
+	List<Assignment> assignments;
+	List<AssignmentSolutions> assignmentSolutions;
 };
