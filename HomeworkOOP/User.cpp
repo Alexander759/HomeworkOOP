@@ -2,11 +2,12 @@
 
 size_t User::currentId = 1;
 
-User::User(const MyString& firstName, const MyString& lastName, const List<Role>& roles) {
+User::User(const MyString& firstName, const MyString& lastName, const MyString& password, const List<Role>& roles) {
     this->id = currentId;
     currentId++;
     this->setFirstName(firstName);
     this->setLastName(lastName);
+    this->setPassword(password);
     this->roles = roles;
 }
 
@@ -22,8 +23,16 @@ const MyString& User::getLastName() const {
     return this->lastName;
 }
 
+const MyString& User::getPassword() const {
+    return this->password;
+}
+
 const List<Role>& User::getRoles() const {
     return this->roles;
+}
+
+const SystemEmail& User::getMailBox() const {
+    return this->systemEmail;
 }
 
 bool User::isInRole(Role role) const {
@@ -52,6 +61,10 @@ void User::setLastName(const MyString& newLastName) {
     this->lastName = newLastName;
 }
 
+void User::setPassword(const MyString& password) {
+    this->password = password;
+}
+
 void User::addRole(Role role) {
     if (!this->roles.contains(role)) {
         this->roles.add(role);
@@ -64,6 +77,6 @@ void User::removeRole(Role role) {
     }
 }
 
-void User::getNewMessage(const Message* message) {
+void User::getNewMessage(size_t message) {
     this->systemEmail.getNewMessage(message);
 }

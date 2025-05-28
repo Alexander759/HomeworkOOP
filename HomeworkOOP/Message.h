@@ -2,8 +2,6 @@
 #include "MyString.h"
 #include "Time.h"
 
-class User;
-
 class Message {
 public:
 	Message();

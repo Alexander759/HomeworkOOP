@@ -24,6 +24,7 @@ public:
 	bool operator<(const MyString& other) const;
 	bool operator>=(const MyString& other) const;
 	bool operator<=(const MyString& other) const;
+	bool isNumber() const;
 
 	MyString& concat(const MyString& str);
 	

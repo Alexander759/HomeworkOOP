@@ -1,4 +1,39 @@
 #include "System.h"
+#include <stdexcept>
+#include "CommandReader.h"
+
+System::System() {
+    this->isCurrentlyLoggedIn = false;
+    this->currentlyLoggedInId = 0;
+}
+
+System::~System() {
+    int a = 0;
+}
+
+void System::start() {
+    
+    while (true) {
+        List<MyString> commandList = CommandReader::readCommand();
+    
+        if (commandList.getLength() == 0) {
+            continue;
+        }
+
+        Command& command = this->commands.FirstOrDefault([commandList](const Command& command)
+            -> bool {return command.getCommandName() == commandList[0]; });
+
+
+        if (command.getCommandName() != commandList[0]) {
+            std::cout << "Command is not in list" << std::endl;
+            continue;
+        }
+
+        commandList.removeAt(0);
+
+        std::cout << command.run(*this, commandList).getMessage() << std::endl;
+    }
+}
 
 const List<User>& System::getUsers() const {
     return this->users;
@@ -10,6 +45,46 @@ const List<Message>& System::getMessages() const {
 
 const List<Command>& System::getCommands() const {
     return this->commands;
+}
+
+const List<Role> System::getCurrentUserRoles() const {
+    if (!this->isCurrentlyLoggedIn) {
+        List<Role> result;
+        result.add(Role::Guest);
+        return result;
+    }
+
+    size_t currentId = this->currentlyLoggedInId;
+    return this->users.FirstOrDefault([currentId](const User& user) -> bool {return user.getId() == currentId; }).getRoles();
+}
+
+bool System::getIsCurrentlyLoggedIn() const {
+    return this->isCurrentlyLoggedIn;
+}
+
+size_t System::getCurrentlyLoggedInId() const {
+    if (!this->isCurrentlyLoggedIn) {
+        throw std::exception("User not logged in");
+    }
+    
+    return this->currentlyLoggedInId;
+}
+
+void System::setIsCurrentlyLoggedIn(bool isCurrentlyLoggedIn) {
+    this->isCurrentlyLoggedIn = isCurrentlyLoggedIn;
+}
+
+void System::setCurrentlyLoggedInId(size_t currentlyLoggedInId) {
+    this->currentlyLoggedInId = currentlyLoggedInId;
+}
+
+User& System::getUser() {
+    if (!this->isCurrentlyLoggedIn) {
+        throw std::exception("No logged in user");
+    }
+
+    size_t currentId = this->currentlyLoggedInId;
+    return users.FirstOrDefault([currentId](const User& user) -> bool {return user.getId() == currentId; });
 }
 
 List<User>& System::getUsers() {
@@ -24,37 +99,3 @@ List<Command>& System::getCommands() {
     return this->commands;
 }
 
-bool System::validateMessageToAllArgs(const List<MyString>& args) {
-    return args.getLength() >= 1;
-}
-
-CommandResponse System::messageToAll(User& user, System& system, const List<MyString>& args) {
-    MyString messageContent;
-    for (size_t i = 0; i < args.getLength(); i++) {
-        messageContent += args[i] + " ";
-    }
-
-    messageContent = messageContent.subStr(0, messageContent.getLength() - 1);
-
-    Message message(user.getId(), messageContent);
-    system.getMessages().add(message);
-
-    Message* systemMessagePtr = nullptr;
-    for (int i = system.messages.getLength() - 1; i >= 0; i--) {
-        if (system.messages[i].getId() == message.getId()) {
-            systemMessagePtr = &system.messages[i];
-        }
-    }
-
-    if (systemMessagePtr == nullptr) {
-        return CommandResponse(false, "Error");
-    }
-
-    for (size_t i = 0; i < system.getUsers().getLength(); i++) {
-        if (system.getUsers()[i] != user) {
-            system.getUsers()[i].getNewMessage(systemMessagePtr);
-        }
-    }
-
-    return CommandResponse(true, "Success");
-}

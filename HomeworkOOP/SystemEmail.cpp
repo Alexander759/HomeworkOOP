@@ -1,26 +1,18 @@
 #include "SystemEmail.h"
 #include <stdexcept>
 
-void SystemEmail::addToSendMessagesNewMessage(const Message* newMessage) {
-    if (newMessage == nullptr) {
-        throw std::invalid_argument("Can not add nullptr");
-    }
-
-    this->messagesSend.add(newMessage);
+void SystemEmail::addToSendMessagesNewMessage(size_t newMessageId) {
+    this->messagesSendIds.add(newMessageId);
 }
 
-void SystemEmail::getNewMessage(const Message* newMessage) {
-    if (newMessage == nullptr) {
-        throw std::invalid_argument("Can not add nullptr");
-    }
-
-    this->messagesReceived.add(newMessage);
+void SystemEmail::getNewMessage(size_t newMessageId) {
+    this->messagesReceivedIds.add(newMessageId);
 }
 
-const List<const Message*>& SystemEmail::getMessagesSend() const {
-    return this->messagesSend;
+const List<size_t>& SystemEmail::getMessagesSendIds() const {
+    return this->messagesSendIds;
 }
 
-const List<const Message*>& SystemEmail::getMessagesReceived() const {
-    return this->messagesReceived;
+const List<size_t>& SystemEmail::getMessagesReceivedIds() const {
+    return this->messagesReceivedIds;
 }

@@ -145,6 +145,29 @@ bool MyString::operator<=(const MyString& other) const {
     return strcmp(this->content, other.getCString()) < 1;
 }
 
+bool MyString::isNumber() const {
+    if (this->length == 0) {
+        return false;
+    }
+
+    size_t start = 0;
+
+    if (this->content[start] == '+' || this->content[start] == '-') {
+        start++;
+        if (this->length == 1) {
+            return false;
+        }
+    }
+
+    for (size_t i = start; i < length; i++) {
+        if ('0' > this->content[i] || this->content[i] > '9') {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 MyString& MyString::concat(const MyString& str) {
     size_t newLength =  this->length + str.getLength();
     char* newContent = new char[newLength + 1];

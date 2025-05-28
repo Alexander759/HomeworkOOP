@@ -3,6 +3,7 @@
 
 class CommandResponse {
 public:
+	CommandResponse() = default;
 	CommandResponse(bool success, MyString message);
 	bool isSuccessful() const;
 	const MyString& getMessage() const;

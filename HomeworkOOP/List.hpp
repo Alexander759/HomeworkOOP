@@ -5,6 +5,7 @@ template <class T>
 class List {
 public:
 	List();
+	List(const T* items, size_t length);
 	List(const List<T>& other);
 	List(List<T>&& other);
 	List<T>& operator=(const List<T>& other);
@@ -13,10 +14,20 @@ public:
 
 	bool contains(const T& item) const;
 	int indexOf(const T& item) const;
-	int indexOf(bool (*func)(const T& item));
+
+	template<typename CallableType>
+	int indexOf(CallableType func) const;
+
+	template<typename CallableType>
+	T& FirstOrDefault(CallableType func);
+
+	template<typename CallableType>
+	const T& FirstOrDefault(CallableType func) const;
+
 	void add(const T& item);
 	void removeAt(size_t index);
 	void remove(const T& item);
+	void clear();
 	size_t getLength() const;
 	
 	bool operator==(const List<T>& other) const;
@@ -45,6 +56,15 @@ size_t List<T>::defaultStartCapacity = 8;
 template<class T>
 inline List<T>::List() : length(0), capacity(defaultStartCapacity) {
 	this->content = new T[this->capacity];
+}
+
+template<class T>
+inline List<T>::List(const T* items, size_t length) : length(0), capacity(defaultStartCapacity) {
+	this->content = new T[this->capacity];
+
+	for (size_t i = 0; i < length; i++) {
+		this->add(items[i]);
+	}
 }
 
 template<class T>
@@ -103,19 +123,8 @@ inline bool List<T>::contains(const T& item) const {
 
 template<class T>
 inline int List<T>::indexOf(const T& item) const {
-	for (size_t i = 0; i < this->length; i++) {
+	for (int i = 0; i < this->length; i++) {
 		if (item == this->content[i]) {
-			return i;
-		}
-	}
-
-	return -1;
-}
-
-template<class T>
-inline int List<T>::indexOf(bool(*func)(const T& item)) {
-	for (size_t i = 0; i < length; i++) {
-		if (func(this->content[i])) {
 			return i;
 		}
 	}
@@ -157,6 +166,14 @@ inline void List<T>::remove(const T& item) {
 	}
 
 	this->removeAt(index);
+}
+
+template<class T>
+inline void List<T>::clear() {
+	delete[] this->content;
+	this->capacity = List<T>::defaultStartCapacity;
+	this->length = 0;
+	this->content = new T[this->capacity];
 }
 
 template<class T>
@@ -247,4 +264,48 @@ inline void List<T>::resizeDown() {
 
 	delete[] this->content;
 	this->content = newContent;
+}
+
+template<class T>
+template<typename CallableType>
+inline int List<T>::indexOf(CallableType func) const {
+	for (int i = 0; i < length; i++) {
+		if (func(this->content[i])) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+template<class T>
+template<typename CallableType>
+inline T& List<T>::FirstOrDefault(CallableType func) {
+	for (size_t i = 0; i < length; i++) {
+		if (func(this->content[i])) {
+			return this->content[i];
+		}
+	}
+
+	if (this->length == 0) {
+		throw std::out_of_range("No elements");
+	}
+
+	return this->content[0];
+}
+
+template<class T>
+template<typename CallableType>
+inline const T& List<T>::FirstOrDefault(CallableType func) const {
+	for (size_t i = 0; i < length; i++) {
+		if (func(this->content[i])) {
+			return this->content[i];
+		}
+	}
+
+	if (this->length == 0) {
+		throw std::out_of_range("No elements");
+	}
+
+	return this->content[0];
 }

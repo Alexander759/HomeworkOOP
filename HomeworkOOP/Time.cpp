@@ -47,6 +47,10 @@ int Time::getYear() const {
 	return this->year;
 }
 
+const MyString Time::toStringFormat() const {
+	return MyString("Time is: ");
+}
+
 bool Time::operator==(const Time& other) const {
 	return false;
 }

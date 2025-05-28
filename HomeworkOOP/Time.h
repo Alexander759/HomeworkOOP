@@ -1,4 +1,5 @@
 #pragma once
+#include "MyString.h"
 
 class Time {
 public:
@@ -12,6 +13,7 @@ public:
 	int getDays() const;
 	int getMonth() const;
 	int getYear() const;
+	const MyString toStringFormat() const;
 
 	bool operator==(const Time& other) const;
 	bool operator!=(const Time& other) const;

@@ -4,11 +4,11 @@
 
 class SystemEmail {
 public:
-	void addToSendMessagesNewMessage(const Message* newMessage);
-	void getNewMessage(const Message* newMessage);
-	const List<const Message*>& getMessagesSend() const;
-	const List<const Message*>& getMessagesReceived() const;
+	void addToSendMessagesNewMessage(size_t newMessageId);
+	void getNewMessage(size_t newMessageId);
+	const List<size_t>& getMessagesSendIds() const;
+	const List<size_t>& getMessagesReceivedIds() const;
 private:
-	List<const Message*> messagesSend;
-	List<const Message*> messagesReceived;
+	List<size_t> messagesSendIds;
+	List<size_t> messagesReceivedIds;
 };
