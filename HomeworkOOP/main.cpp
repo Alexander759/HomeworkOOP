@@ -79,6 +79,11 @@ int main() {
 		SystemFunctions::validateCreateCourse, SystemFunctions::createCourse, List<Role>());
 	createCourse.addRole(Role::Teacher);
 	app.getCommands().add(createCourse);
+	
+	Command messageToStudents("message_students", "",
+		SystemFunctions::validateMessageToStudents, SystemFunctions::messageToStudents, List<Role>());
+	messageToStudents.addRole(Role::Teacher);
+	app.getCommands().add(messageToStudents);
 
 	Command enroll("enroll", "",
 		SystemFunctions::validateEnroll, SystemFunctions::enroll, List<Role>());

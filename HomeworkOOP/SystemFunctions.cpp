@@ -221,6 +221,42 @@ CommandResponse SystemFunctions::addToCourse(System& system, const List<MyString
     return CommandResponse(true, "");
 }
 
+bool SystemFunctions::validateMessageToStudents(const List<MyString>& args) {
+    return args.getLength() >= 2;
+}
+
+CommandResponse SystemFunctions::messageToStudents(System& system, const List<MyString>& args) {
+    if (system.getCourses().getLength() == 0) {
+        return CommandResponse(false, "Course not found");
+    }
+
+    Course& course = system.getCourses().FirstOrDefault([args](const Course& course) -> bool {return course.getName() == args[0]; });
+
+    if (!course.getTeacherIds().contains(system.getUser().getId())) {
+        return CommandResponse(false, "You are not in the course");
+    }
+
+    MyString messageContent;
+
+    for (size_t i = 1; i < args.getLength(); i++) {
+        messageContent += args[i] + " ";
+    }
+
+    messageContent = messageContent.subStr(0, messageContent.getLength() - 1);
+    Message message(system.getUser().getId(), messageContent);
+    system.getMessages().add(message);
+
+    for (size_t i = 0; i < system.getUsers().getLength(); i++) {
+        User user = system.getUsers()[i];
+
+        if (user.isInRole(Role::Student)) {
+            user.getMailBox().getNewMessage(message.getId());
+        }
+    }
+
+    return CommandResponse(true, "");
+}
+
 bool SystemFunctions::validateEnroll(const List<MyString>& args) {
     return args.getLength() == 2;
 }
