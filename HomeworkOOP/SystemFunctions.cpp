@@ -109,12 +109,26 @@ bool SystemFunctions::validateAddTeacher(const List<MyString>& args) {
 }
 
 CommandResponse SystemFunctions::addTeacher(System& system, const List<MyString>& args) {
-    User user(args[0], args[1], args[2], List<Role>());
-    user.addRole(Role::Teacher);
-    user.addRole(Role::Guest);
-    system.getUsers().add(user);
+    User teacher(args[0], args[1], args[2], List<Role>());
+    teacher.addRole(Role::Teacher);
+    teacher.addRole(Role::Guest);
+    system.getUsers().add(teacher);
 
-    return CommandResponse(true, MyString("Added Teacher ") + user.getFirstName() 
-        + user.getLastName() + " with Id " + user.getId());
+    return CommandResponse(true, MyString("Added Teacher ") + teacher.getFirstName() 
+        + teacher.getLastName() + " with ID " + teacher.getId());
+}
+
+bool SystemFunctions::validateAddStudent(const List<MyString>& args) {
+    return args.getLength() == 3;
+}
+
+CommandResponse SystemFunctions::addStudent(System& system, const List<MyString>& args) {
+    User student(args[0], args[1], args[2], List<Role>());
+    student.addRole(Role::Student);
+    student.addRole(Role::Guest);
+    system.getUsers().add(student);
+
+    return CommandResponse(true, MyString("Added student ") + student.getFirstName()
+        + student.getLastName() + " with ID " + student.getId());
 }
 

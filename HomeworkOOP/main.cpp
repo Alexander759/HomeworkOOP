@@ -56,5 +56,10 @@ int main() {
 	addTeacher.addRole(Role::Admin);
 	app.getCommands().add(addTeacher);
 
+	Command addStudent("add_student", "",
+		SystemFunctions::validateAddStudent, SystemFunctions::addStudent, List<Role>());
+	addStudent.addRole(Role::Admin);
+	app.getCommands().add(addStudent);
+
 	app.start();
 }
