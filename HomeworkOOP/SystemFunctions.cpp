@@ -386,3 +386,61 @@ CommandResponse SystemFunctions::submitAssignment(System& system, const List<MyS
     return CommandResponse(true, "");
 }
 
+bool SystemFunctions::validateViewAssignmentSubmissions(const List<MyString>& args) {
+    return args.getLength() == 2;
+}
+
+CommandResponse SystemFunctions::viewAssignmentSubmissions(System& system, const List<MyString>& args) {
+    Course& course = system.getCourses().FirstOrDefault([args](const Course& c) -> bool {return c.getName() == args[0]; });
+
+    if (course.getName() != args[0]) {
+        return CommandResponse(false, "Course not found");
+    }
+
+    Assignment& assignment = system.getAssignments().FirstOrDefault([args, course](const Assignment& assignment)
+        -> bool {return assignment.getCourseId() == course.getId() && assignment.getName() == args[1]; });
+
+    if (assignment.getCourseId() != course.getId() || assignment.getName() != args[1]) {
+        return CommandResponse(false, "Assignment not found");
+    }
+
+    List<AssignmentSolution*> assignmentSolutions;
+
+    for (size_t i = 0; i < system.getAssignmentSolutions().getLength(); i++) {
+        AssignmentSolution& solution = system.getAssignmentSolutions()[i];
+        if (solution.getAssignmentId() == assignment.getId()) {
+            bool isNotGraded = true;
+            for (size_t i = 0; i < system.getGrades().getLength(); i++) {
+                if (system.getGrades()[i].getAssignmentSolutionId() == solution.getId()) {
+                    isNotGraded = false;
+                    break;
+                }
+            }
+
+            if (isNotGraded) {
+                assignmentSolutions.add(&solution);
+            }
+        }
+    }
+
+    MyString submissions;
+    for (size_t i = 0; i < assignmentSolutions.getLength(); i++) {
+        User& student = system.getUsers().FirstOrDefault([assignmentSolutions, i](const User& user) -> bool {return user.getId() == assignmentSolutions[i]->getStudentId(); });
+
+        if (student.getId() != assignmentSolutions[i]->getStudentId()) {
+            continue;
+        }
+
+        submissions += student.getFirstName() + " " + student.getLastName() + ", " + student.getId() + ": " + assignmentSolutions[i]->getSolution() + "\n";
+    }
+
+    if (submissions.getLength() == 0) {
+        submissions = "No new submissions";
+    }
+    else {
+        submissions = submissions.subStr(0, submissions.getLength() - 1);
+    }
+
+    return CommandResponse(true, submissions);
+}
+

@@ -7,12 +7,12 @@ public:
 
 	double getGrade() const;
 	size_t getStudentId() const;
-	size_t getAssignmentId() const;
+	size_t getAssignmentSolutionId() const;
 	size_t getTeacherId() const;
 
 	void setGrade(double grade);
 	void setStudentId(size_t studentId);
-	void setAssignmentId(size_t assignmentId);
+	void setAssignmenSolutiontId(size_t assignmenSolutiontId);
 	void setTeacherId(size_t teacherId);
 
 private:
@@ -21,6 +21,6 @@ private:
 	size_t id;
 	double grade;
 	size_t studentId;
-	size_t assignmentId;
+	size_t assignmentSolutionId;
 	size_t teacherId;
 };

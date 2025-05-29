@@ -8,7 +8,7 @@ Grade::Grade() {
     currentId++;
 }
 
-Grade::Grade(double grade, size_t studentId, size_t assignmentId, size_t teacherId) : studentId(studentId), assignmentId(assignmentId), teacherId(teacherId) {
+Grade::Grade(double grade, size_t studentId, size_t assignmentId, size_t teacherId) : studentId(studentId), assignmentSolutionId(assignmentId), teacherId(teacherId) {
     this->id = currentId;
     currentId++;
     this->setGrade(grade);
@@ -22,8 +22,8 @@ size_t Grade::getStudentId() const {
     return this->studentId;
 }
 
-size_t Grade::getAssignmentId() const {
-    return this->assignmentId;
+size_t Grade::getAssignmentSolutionId() const {
+    return this->assignmentSolutionId;
 }
 
 size_t Grade::getTeacherId() const {
@@ -42,8 +42,8 @@ void Grade::setStudentId(size_t studentId) {
     this->studentId = studentId;
 }
 
-void Grade::setAssignmentId(size_t assignmentId) {
-    this->assignmentId = assignmentId;
+void Grade::setAssignmenSolutiontId(size_t assignmentSolutionId) {
+    this->assignmentSolutionId = assignmentSolutionId;
 }
 
 void Grade::setTeacherId(size_t teacherId) {

@@ -53,4 +53,7 @@ public:
 	static bool validateSubmitAssignment(const List<MyString>& args);
 	static CommandResponse submitAssignment(System& system, const List<MyString>& args);
 
+	static bool validateViewAssignmentSubmissions(const List<MyString>& args);
+	static CommandResponse viewAssignmentSubmissions(System& system, const List<MyString>& args);
+
 };

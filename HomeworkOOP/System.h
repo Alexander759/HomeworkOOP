@@ -5,6 +5,7 @@
 #include "CommandResponse.h"
 #include "Course.h"
 #include "Assignment.h"
+#include "Grade.h"
 
 class System {
 public:
@@ -19,7 +20,8 @@ public:
 	const List<Course>& getCourses() const;
 	const List<Assignment>& getAssignments() const;
 	const List<AssignmentSolution>& getAssignmentSolutions() const;
-	
+	const List<Grade>& getGrades() const;
+
 	const List<Role> getCurrentUserRoles() const;
 
 	bool getIsCurrentlyLoggedIn() const;
@@ -35,6 +37,7 @@ public:
 	List<Course>& getCourses();
 	List<Assignment>& getAssignments();
 	List<AssignmentSolution>& getAssignmentSolutions();
+	List<Grade>& getGrades();
 
 private:
 	bool isCurrentlyLoggedIn;
@@ -45,4 +48,5 @@ private:
 	List<Course> courses;
 	List<Assignment> assignments;
 	List<AssignmentSolution> assignmentSolutions;
+	List<Grade> grades;
 };

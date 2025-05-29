@@ -63,6 +63,10 @@ const List<AssignmentSolution>& System::getAssignmentSolutions() const {
     return this->assignmentSolutions;
 }
 
+const List<Grade>& System::getGrades() const {
+    return this->grades;
+}
+
 const List<Role> System::getCurrentUserRoles() const {
     if (!this->isCurrentlyLoggedIn) {
         List<Role> result;
@@ -125,5 +129,9 @@ List<Assignment>& System::getAssignments() {
 
 List<AssignmentSolution>& System::getAssignmentSolutions() {
     return this->assignmentSolutions;
+}
+
+List<Grade>& System::getGrades() {
+    return this->grades;
 }
 

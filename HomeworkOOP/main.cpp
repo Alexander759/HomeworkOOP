@@ -109,5 +109,10 @@ int main() {
 	submitAssignment.addRole(Role::Student);
 	app.getCommands().add(submitAssignment);
 
+	Command viewAssignmentSubmissions("view_assignment_submisssions", "",
+		SystemFunctions::validateViewAssignmentSubmissions, SystemFunctions::viewAssignmentSubmissions, List<Role>());
+	viewAssignmentSubmissions.addRole(Role::Teacher);
+	app.getCommands().add(viewAssignmentSubmissions);
+
 	app.start();
 }
