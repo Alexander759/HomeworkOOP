@@ -1,4 +1,5 @@
 #include "SystemFunctions.h"
+#include "AssignmentSolution.h"
 
 bool SystemFunctions::validateMessageToAllArgs(const List<MyString>& args) {
     return args.getLength() >= 1;
@@ -294,8 +295,94 @@ CommandResponse SystemFunctions::assignHomework(System& system, const List<MyStr
         return CommandResponse(false, "You are not in the course");
     }
 
-    Assignment assignment(args[1], course.getCreatorId());
+    Assignment assignment(args[1], course.getId());
 
     system.getAssignments().add(assignment);
     return CommandResponse(true, "Successfully created a new assignment!");
 }
+
+bool SystemFunctions::validateViewHomework(const List<MyString>& args) {
+    return args.getLength() == 0;
+}
+
+CommandResponse SystemFunctions::viewHomework(System& system, const List<MyString>& args) {
+    User& student = system.getUser();
+
+    List<Course*> courcesOfStudent;
+
+    for (size_t i = 0; i < system.getCourses().getLength(); i++) {
+        if (system.getCourses()[i].getStudentIds().contains(student.getId())) {
+            courcesOfStudent.add(&system.getCourses()[i]);
+        }
+    }
+
+    List<Assignment*> assignmentsOfStudent;
+    for (size_t i = 0; i < courcesOfStudent.getLength(); i++) {
+        for (size_t j = 0; j < system.getAssignments().getLength(); j++) {
+            if (courcesOfStudent[i]->getId() == system.getAssignments()[j].getCourseId()) {
+                assignmentsOfStudent.add(&system.getAssignments()[j]);
+            }
+        }
+    }
+
+    for (size_t i = 0; i < system.getAssignmentSolutions().getLength(); i++) {
+        AssignmentSolution& assignmentSolution = system.getAssignmentSolutions()[i];
+
+        if (assignmentSolution.getStudentId() == student.getId()) {
+            for (size_t j = 0; j < assignmentsOfStudent.getLength(); j++) {
+                if (assignmentsOfStudent[j]->getId() == assignmentSolution.getAssignmentId()) {
+                    assignmentsOfStudent.removeAt(j);
+                    j--;
+                }
+            }
+        }
+    }
+
+    if (assignmentsOfStudent.getLength() == 0) {
+        return CommandResponse(true, "No new assignments");
+    }
+
+    MyString message;
+
+    for (size_t i = 0; i < assignmentsOfStudent.getLength(); i++) {
+        message += assignmentsOfStudent[i]->getName() + " " 
+            + system.getCourses().FirstOrDefault([assignmentsOfStudent, i](const Course& course) -> bool {return course.getId() == assignmentsOfStudent[i]->getCourseId(); }).getName()
+            + "\n";
+    }
+
+    message = message.subStr(0, message.getLength() - 1);
+
+    return CommandResponse(true, message);
+}
+
+bool SystemFunctions::validateSubmitAssignment(const List<MyString>& args) {
+    return args.getLength() >= 3;
+}
+
+CommandResponse SystemFunctions::submitAssignment(System& system, const List<MyString>& args) {
+    User& user = system.getUser();
+    Course& course = system.getCourses().FirstOrDefault([args](const Course& c) -> bool {return c.getName() == args[0]; });
+
+    if (course.getName() != args[0]) {
+        return CommandResponse(false, "Course not found");
+    }
+
+    Assignment& assignment = system.getAssignments().FirstOrDefault([args, course](const Assignment& assignment)
+        -> bool {return assignment.getCourseId() == course.getId() && assignment.getName() == args[1]; });
+
+    if (assignment.getCourseId() != course.getId() || assignment.getName() != args[1]) {
+        return CommandResponse(false, "Assignment not found");
+    }
+
+    MyString solutionContent;
+    for (size_t i = 0; i < args.getLength(); i++) {
+        solutionContent += args[i] + " ";
+    }
+
+    solutionContent = solutionContent.subStr(0, solutionContent.getLength() - 1);
+
+    AssignmentSolution solution(user.getId(), assignment.getId(), solutionContent);
+    system.getAssignmentSolutions().add(solution);
+    return CommandResponse(true, "");
+}
+

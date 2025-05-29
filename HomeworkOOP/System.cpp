@@ -1,6 +1,7 @@
 #include "System.h"
 #include <stdexcept>
 #include "CommandReader.h"
+#include "AssignmentSolution.h"
 
 System::System() {
     this->isCurrentlyLoggedIn = false;
@@ -58,7 +59,7 @@ const List<Assignment>& System::getAssignments() const {
     return this->assignments;
 }
 
-const List<AssignmentSolutions>& System::getAssignmentSolutions() const {
+const List<AssignmentSolution>& System::getAssignmentSolutions() const {
     return this->assignmentSolutions;
 }
 
@@ -122,7 +123,7 @@ List<Assignment>& System::getAssignments() {
     return this->assignments;
 }
 
-List<AssignmentSolutions>& System::getAssignmentSolutions() {
+List<AssignmentSolution>& System::getAssignmentSolutions() {
     return this->assignmentSolutions;
 }
 

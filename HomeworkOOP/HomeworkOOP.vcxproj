@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assignment.h" />
-    <ClInclude Include="AssignmentSolutions.h" />
+    <ClInclude Include="AssignmentSolution.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandReader.h" />
     <ClInclude Include="CommandResponse.h" />

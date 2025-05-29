@@ -18,7 +18,7 @@ public:
 	const List<Command>& getCommands() const;
 	const List<Course>& getCourses() const;
 	const List<Assignment>& getAssignments() const;
-	const List<AssignmentSolutions>& getAssignmentSolutions() const;
+	const List<AssignmentSolution>& getAssignmentSolutions() const;
 	
 	const List<Role> getCurrentUserRoles() const;
 
@@ -34,7 +34,7 @@ public:
 	List<Command>& getCommands();
 	List<Course>& getCourses();
 	List<Assignment>& getAssignments();
-	List<AssignmentSolutions>& getAssignmentSolutions();
+	List<AssignmentSolution>& getAssignmentSolutions();
 
 private:
 	bool isCurrentlyLoggedIn;
@@ -44,5 +44,5 @@ private:
 	List<Command> commands;
 	List<Course> courses;
 	List<Assignment> assignments;
-	List<AssignmentSolutions> assignmentSolutions;
+	List<AssignmentSolution> assignmentSolutions;
 };

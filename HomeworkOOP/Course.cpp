@@ -10,6 +10,7 @@ Course::Course() {
 Course::Course(const MyString& name, const MyString& password, size_t creatorId) : name(name), password(password), creatorId(creatorId) {
 	this->id = currentId;
 	currentId++;
+	teacherIds.add(creatorId);
 }
 
 size_t Course::getId() const {

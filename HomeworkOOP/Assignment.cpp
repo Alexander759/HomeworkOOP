@@ -19,6 +19,10 @@ size_t Assignment::getId() const {
 	return this->id;
 }
 
+size_t Assignment::getCourseId() const {
+	return this->courseId;
+}
+
 const MyString& Assignment::getName() const {
 	return this->name;
 }

@@ -1,30 +1,30 @@
-#include "AssignmentSolutions.h"
+#include "AssignmentSolution.h"
 
-size_t AssignmentSolutions::currentId = 1;
+size_t AssignmentSolution::currentId = 1;
 
-AssignmentSolutions::AssignmentSolutions() {
+AssignmentSolution::AssignmentSolution() {
 	this->id = currentId;
 	currentId++;
 }
 
-AssignmentSolutions::AssignmentSolutions(size_t studentId, size_t assignmentId, const MyString& solution)
+AssignmentSolution::AssignmentSolution(size_t studentId, size_t assignmentId, const MyString& solution)
 	:studentId(studentId), assignmentId(assignmentId), solution(solution) {
 	this->id = currentId;
 	currentId++;
 }
 
-const size_t AssignmentSolutions::getId() const {
+const size_t AssignmentSolution::getId() const {
 	return this->id;
 }
 
-const size_t AssignmentSolutions::getStudentId() const {
+const size_t AssignmentSolution::getStudentId() const {
 	return this->studentId;
 }
 
-const size_t AssignmentSolutions::getAssignmentId() const {
+const size_t AssignmentSolution::getAssignmentId() const {
 	return this->assignmentId;
 }
 
-const MyString& AssignmentSolutions::getSolution() const {
+const MyString& AssignmentSolution::getSolution() const {
 	return this->solution;
 }

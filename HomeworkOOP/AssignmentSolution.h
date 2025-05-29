@@ -1,10 +1,10 @@
 #pragma once
 #include "MyString.h"
 
-class AssignmentSolutions {
+class AssignmentSolution {
 public:
-	AssignmentSolutions();
-	AssignmentSolutions(size_t studentId, size_t assignmentId, const MyString& solution);
+	AssignmentSolution();
+	AssignmentSolution(size_t studentId, size_t assignmentId, const MyString& solution);
 
 	const size_t getId() const;
 	const size_t getStudentId() const;

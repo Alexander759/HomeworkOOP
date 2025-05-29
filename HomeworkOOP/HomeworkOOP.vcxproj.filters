@@ -104,7 +104,7 @@
     <ClInclude Include="Assignment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AssignmentSolutions.h">
+    <ClInclude Include="AssignmentSolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Grade.h">

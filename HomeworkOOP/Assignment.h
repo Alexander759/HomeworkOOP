@@ -1,6 +1,6 @@
 #pragma once
 #include "List.hpp"
-#include "AssignmentSolutions.h"
+#include "AssignmentSolution.h"
 
 class Assignment {
 public:
@@ -8,6 +8,7 @@ public:
 	Assignment(const MyString& title, size_t courseId);
 
 	size_t getId() const;
+	size_t getCourseId() const;
 	const MyString& getName() const;
 	void setName(const MyString& name);
 

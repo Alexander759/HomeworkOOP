@@ -21,6 +21,10 @@ int main() {
 	admin.addRole(Role::Guest);
 	app.getUsers().add(admin);
 	
+	User teacher("Pesho", "Petrov", "pass", teacherList);
+	teacher.addRole(Role::Guest);
+	app.getUsers().add(teacher);
+
 	User student("Alan", "Alan", "pass", studentList);
 	student.addRole(Role::Guest);
 	app.getUsers().add(student);
@@ -92,8 +96,18 @@ int main() {
 
 	Command assignHomework("assign_homework", "",
 		SystemFunctions::validateAssignHomework, SystemFunctions::assignHomework, List<Role>());
-	assignHomework.addRole(Role::Student);
+	assignHomework.addRole(Role::Teacher);
 	app.getCommands().add(assignHomework);
+
+	Command viewHomework("view_homework", "",
+		SystemFunctions::validateViewHomework, SystemFunctions::viewHomework, List<Role>());
+	viewHomework.addRole(Role::Student);
+	app.getCommands().add(viewHomework);
+
+	Command submitAssignment("submit_assignment", "",
+		SystemFunctions::validateSubmitAssignment, SystemFunctions::submitAssignment, List<Role>());
+	submitAssignment.addRole(Role::Student);
+	app.getCommands().add(submitAssignment);
 
 	app.start();
 }
