@@ -118,5 +118,10 @@ int main() {
 		SystemFunctions::validateGradeAssignment, SystemFunctions::gradeAssignment, List<Role>());
 	app.getCommands().add(gradeAssignment);
 
+	Command viewGrades("grades", "",
+		SystemFunctions::validateViewGrades, SystemFunctions::viewGrades, List<Role>());
+	viewGrades.addRole(Role::Student);
+	app.getCommands().add(viewGrades);
+
 	app.start();
 }

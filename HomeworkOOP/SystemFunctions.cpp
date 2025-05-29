@@ -505,3 +505,53 @@ CommandResponse SystemFunctions::gradeAssignment(System& system, const List<MySt
     return CommandResponse(true, "");
 }
 
+bool SystemFunctions::validateViewGrades(const List<MyString>& args) {
+    return args.getLength() == 0;
+}
+
+CommandResponse SystemFunctions::viewGrades(System& system, const List<MyString>& args) {
+    User& user = system.getUser();
+
+    MyString message;
+
+    for (size_t i = 0; i < system.getGrades().getLength(); i++) {
+        if (system.getGrades()[i].getStudentId() == user.getId()) {
+            Grade& grade = system.getGrades()[i];
+
+            AssignmentSolution& assignmentSolution = system.getAssignmentSolutions().FirstOrDefault([grade](const AssignmentSolution& assignmentSolution)
+                -> bool {return assignmentSolution.getId() == grade.getAssignmentSolutionId(); });
+            
+            if (assignmentSolution.getId() != grade.getAssignmentSolutionId()) {
+                continue;
+            }
+            
+            Assignment& assignment = system.getAssignments().FirstOrDefault([assignmentSolution](const Assignment& assignment)
+                -> bool {return assignment.getId() == assignmentSolution.getAssignmentId(); });
+
+            if (assignment.getId() != assignmentSolution.getAssignmentId()) {
+                continue;
+            }
+
+            Course& course = system.getCourses().FirstOrDefault([assignment](const Course& course)
+                -> bool {return course.getId() == assignment.getCourseId(); });
+
+            if (course.getId() != assignment.getCourseId()) {
+                continue;
+            }
+
+            message += course.getName() + " | " + assignment.getName() + " | " + grade.getGrade() + " | " + grade.getMessage() + "\n";
+        }
+    }
+
+    if (message == "") {
+        message = "There are no graded assignments";
+    }
+    else {
+        message = message.subStr(0, message.getLength() - 1);
+    }
+
+
+    return CommandResponse(true, message);
+}
+
+
