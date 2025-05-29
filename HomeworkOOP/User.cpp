@@ -1,6 +1,6 @@
 #include "User.h"
 
-size_t User::currentId = 1;
+size_t User::currentId = 0;
 
 User::User(const MyString& firstName, const MyString& lastName, const MyString& password, const List<Role>& roles) {
     this->id = currentId;
@@ -24,7 +24,13 @@ const MyString& User::getLastName() const {
 }
 
 const MyString User::getFullName() const {
-    return this->firstName + " " + this->lastName;
+    MyString result = this->firstName;
+
+    if (this->lastName != "") {
+        result += MyString(" ") + this->lastName;
+    }
+
+    return result;
 }
 
 const MyString& User::getPassword() const {
@@ -51,6 +57,22 @@ bool User::isInRole(Role role) const {
     }
 
     return false;
+}
+
+MyString User::getMainRole() const {
+    if (isInRole(Role::Admin)) {
+        return MyString("Admin");
+    }
+
+    if (isInRole(Role::Teacher)) {
+        return MyString("Teacher");
+    }
+
+    if (isInRole(Role::Student)) {
+        return MyString("Student");
+    }
+
+    return MyString("Guest");
 }
 
 bool User::operator==(const User& user) const {

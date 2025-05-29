@@ -2,11 +2,6 @@
 
 size_t Message::currentId = 1;
 
-Message::Message() {
-	this->id = currentId;
-	currentId++;
-}
-
 Message::Message(size_t senderId, MyString content) {
 	this->id = currentId;
 	currentId++;

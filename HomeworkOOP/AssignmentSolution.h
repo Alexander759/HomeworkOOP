@@ -3,7 +3,7 @@
 
 class AssignmentSolution {
 public:
-	AssignmentSolution();
+	AssignmentSolution() = default;
 	AssignmentSolution(size_t studentId, size_t assignmentId, const MyString& solution);
 
 	const size_t getId() const;

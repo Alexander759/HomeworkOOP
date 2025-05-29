@@ -4,7 +4,7 @@
 
 class Assignment {
 public:
-	Assignment();
+	Assignment() = default;
 	Assignment(const MyString& title, size_t courseId);
 
 	size_t getId() const;

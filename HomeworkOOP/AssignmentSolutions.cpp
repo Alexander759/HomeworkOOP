@@ -2,11 +2,6 @@
 
 size_t AssignmentSolution::currentId = 1;
 
-AssignmentSolution::AssignmentSolution() {
-	this->id = currentId;
-	currentId++;
-}
-
 AssignmentSolution::AssignmentSolution(size_t studentId, size_t assignmentId, const MyString& solution)
 	:studentId(studentId), assignmentId(assignmentId), solution(solution) {
 	this->id = currentId;

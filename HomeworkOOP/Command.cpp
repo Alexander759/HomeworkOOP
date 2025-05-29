@@ -4,13 +4,6 @@
 
 size_t Command::currentId = 1;
 
-Command::Command() {
-	this->id = currentId;
-	currentId++;
-	this->commandPtr = nullptr;
-	this->validateArgsPtr = nullptr;
-}
-
 Command::Command(const MyString& commandName, const MyString& commandHelp, bool(*validateArgsPtr)(const List<MyString>& args), CommandResponse(*commandPtr)(System& system, const List<MyString>& args), const List<Role>& allowedRoles) {
 	if (validateArgsPtr == nullptr || commandPtr == nullptr) {
 		throw std::invalid_argument("Can not reference nullptrs");

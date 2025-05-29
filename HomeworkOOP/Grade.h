@@ -3,7 +3,7 @@
 
 class Grade {
 public:
-	Grade();
+	Grade() = default;
 	Grade(double grade, size_t studentId, size_t assignmentId, size_t teacherId, const MyString& message);
 
 	double getGrade() const;

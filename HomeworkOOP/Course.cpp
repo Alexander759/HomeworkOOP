@@ -2,11 +2,6 @@
 
 size_t Course::currentId = 1;
 
-Course::Course() {
-	this->id = currentId;
-	currentId++;
-}
-
 Course::Course(const MyString& name, const MyString& password, size_t creatorId) : name(name), password(password), creatorId(creatorId) {
 	this->id = currentId;
 	currentId++;

@@ -6,6 +6,8 @@ class MyString {
 public:
 	MyString();
 	MyString(size_t num);
+	MyString(int num);
+	MyString(double num);
 	MyString(const char* other);
 	MyString(const MyString& str);
 	MyString(MyString&& str) noexcept;
@@ -25,7 +27,12 @@ public:
 	bool operator<(const MyString& other) const;
 	bool operator>=(const MyString& other) const;
 	bool operator<=(const MyString& other) const;
-	bool isNumber() const;
+	
+	bool isDouble() const;
+	double toDouble() const;
+
+	bool isSizeT() const;
+	size_t toSizeT() const;
 
 	MyString& concat(const MyString& str);
 	MyString& reverse();

@@ -4,7 +4,7 @@
 
 class Message {
 public:
-	Message();
+	Message() = default;
 	Message(size_t senderId, MyString content);
 
 	const size_t getId() const;

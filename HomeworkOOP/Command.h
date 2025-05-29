@@ -8,7 +8,7 @@ class System;
 
 class Command {
 public:
-	Command();
+	Command() = default;
 	Command(const MyString& commandName, const MyString& commandHelp,
 		bool (*validateArgsPtr)(const List<MyString>& args),
 		CommandResponse(*commandPtr)(System& system, const List<MyString>& args),

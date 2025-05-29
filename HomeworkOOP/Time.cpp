@@ -48,29 +48,40 @@ int Time::getYear() const {
 }
 
 const MyString Time::toStringFormat() const {
-	return MyString("Time is: ");
+	MyString result;
+	result += hours < 10 ? MyString("0") + this->hours : this->hours;
+	result += ":";
+	result += this->minutes < 10 ? MyString("0") + this->minutes : this->minutes;
+	result += " ";
+	result += this->days < 10 ? MyString("0") + this->days : this->days ;
+	result += ".";
+	result += this->month < 10 ? MyString("0") + this->month : this->month;
+	result += ".";
+	result += this->year;
+	
+	return result;
 }
 
 bool Time::operator==(const Time& other) const {
-	return false;
+	return compare(*this, other) == 0;
 }
 
 bool Time::operator!=(const Time& other) const {
-	return false;
+	return compare(*this, other) != 0;
 }
 
 bool Time::operator>(const Time& other) const {
-	return false;
+	return compare(*this, other) > 0;
 }
 
 bool Time::operator<(const Time& other) const {
-	return false;
+	return compare(*this, other) < 0;
 }
 
 bool Time::operator>=(const Time& other) const {
-	return false;
+	return compare(*this, other) >= 0;
 }
 
 bool Time::operator<=(const Time& other) const {
-	return false;
+	return compare(*this, other) <= 0;
 }

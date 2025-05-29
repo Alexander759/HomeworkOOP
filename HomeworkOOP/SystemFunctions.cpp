@@ -27,7 +27,7 @@ CommandResponse SystemFunctions::messageToAll(System& system, const List<MyStrin
 }
 
 bool SystemFunctions::validateMessageArgs(const List<MyString>& args) {
-    return args.getLength() >= 2 && args[0].isNumber();
+    return args.getLength() >= 2 && args[0].isSizeT();
 }
 
 CommandResponse SystemFunctions::message(System& system, const List<MyString>& args) {
@@ -64,7 +64,7 @@ bool SystemFunctions::validateLogin(const List<MyString>& args) {
         return false;
     }
 
-    return args[0].isNumber();
+    return args[0].isSizeT();
 }
 
 CommandResponse SystemFunctions::login(System& system, const List<MyString>& args) {
@@ -86,7 +86,11 @@ CommandResponse SystemFunctions::login(System& system, const List<MyString>& arg
 
     system.setIsCurrentlyLoggedIn(true);
     system.setCurrentlyLoggedInId(user.getId());
-    return CommandResponse(true, MyString("Welcome ") + system.getUser().getFirstName());
+    
+    MyString message = "Login successful\n";
+    message += user.getFullName() + " | " + user.getMainRole() + " | " + user.getId();
+
+    return CommandResponse(true, message);
 }
 
 bool SystemFunctions::validateLogout(const List<MyString>& args) {
@@ -115,7 +119,7 @@ CommandResponse SystemFunctions::mailBox(System& system, const List<MyString>& a
         User& sender = system.getUsers().FirstOrDefault([messsage](const User& user) -> bool {return messsage.getSenderId() == user.getId(); });
         
         responseContent += messsage.getTimeSended().toStringFormat() + ", sent by "
-            + sender.getFirstName() + " " + sender.getLastName() + ": " + messsage.getContent();
+            + sender.getFullName() + ": " + messsage.getContent();
 
         if (i != messageIds.getLength() - 1) {
             responseContent += "\n";
@@ -148,8 +152,7 @@ CommandResponse SystemFunctions::addTeacher(System& system, const List<MyString>
     teacher.addRole(Role::Guest);
     system.getUsers().add(teacher);
 
-    return CommandResponse(true, MyString("Added Teacher ") + teacher.getFirstName() 
-        + teacher.getLastName() + " with ID " + teacher.getId());
+    return CommandResponse(true, MyString("Added Teacher ") + teacher.getFullName() + " with ID " + teacher.getId() + "!");
 }
 
 bool SystemFunctions::validateAddStudent(const List<MyString>& args) {
@@ -162,8 +165,7 @@ CommandResponse SystemFunctions::addStudent(System& system, const List<MyString>
     student.addRole(Role::Guest);
     system.getUsers().add(student);
 
-    return CommandResponse(true, MyString("Added student ") + student.getFirstName()
-        + student.getLastName() + " with ID " + student.getId());
+    return CommandResponse(true, MyString("Added student ") + student.getFullName() + " with ID " + student.getId() + "!");
 }
 
 bool SystemFunctions::validateChangePassword(const List<MyString>& args) {
@@ -196,7 +198,7 @@ CommandResponse SystemFunctions::createCourse(System& system, const List<MyStrin
 }
 
 bool SystemFunctions::validateAddToCourse(const List<MyString>& args) {
-    return args.getLength() == 2 && args[1].isNumber();
+    return args.getLength() == 2 && args[1].isSizeT();
 }
 
 CommandResponse SystemFunctions::addToCourse(System& system, const List<MyString>& args) {
@@ -248,9 +250,9 @@ CommandResponse SystemFunctions::messageToStudents(System& system, const List<My
     system.getMessages().add(message);
 
     for (size_t i = 0; i < system.getUsers().getLength(); i++) {
-        User user = system.getUsers()[i];
+        User& user = system.getUsers()[i];
 
-        if (user.isInRole(Role::Student)) {
+        if (user.isInRole(Role::Student) && course.getStudentIds().contains(user.getId())) {
             user.getMailBox().getNewMessage(message.getId());
         }
     }
@@ -431,7 +433,7 @@ CommandResponse SystemFunctions::viewAssignmentSubmissions(System& system, const
             continue;
         }
 
-        submissions += student.getFirstName() + " " + student.getLastName() + ", " + student.getId() + ": " + assignmentSolutions[i]->getSolution() + "\n";
+        submissions += student.getFullName() + ", " + student.getId() + ": " + assignmentSolutions[i]->getSolution() + "\n";
     }
 
     if (submissions.getLength() == 0) {
@@ -445,7 +447,7 @@ CommandResponse SystemFunctions::viewAssignmentSubmissions(System& system, const
 }
 
 bool SystemFunctions::validateGradeAssignment(const List<MyString>& args) {
-    return args.getLength() >= 5;
+    return args.getLength() >= 5 && args[2].isSizeT();
 }
 
 CommandResponse SystemFunctions::gradeAssignment(System& system, const List<MyString>& args) {

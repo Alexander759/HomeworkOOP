@@ -3,7 +3,7 @@
 
 class Course {
 public:
-	Course();
+	Course() = default;
 	Course(const MyString& name, const MyString& password, size_t creatorId);
 
 	size_t getId() const;

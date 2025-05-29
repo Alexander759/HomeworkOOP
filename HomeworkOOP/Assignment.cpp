@@ -2,11 +2,6 @@
 
 size_t Assignment::currentId = 1;
 
-Assignment::Assignment() {
-	this->id = currentId;
-	currentId++;
-}
-
 Assignment::Assignment(const MyString& name, size_t courseId) {
 	this->id = currentId;
 	currentId++;

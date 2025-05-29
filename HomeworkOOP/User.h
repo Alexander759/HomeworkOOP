@@ -18,6 +18,7 @@ public:
 	const SystemEmail& getMailBox() const;
 	SystemEmail& getMailBox();
 	bool isInRole(Role role) const;
+	MyString getMainRole() const;
 	bool operator==(const User& user) const;
 	bool operator!=(const User& user) const;
 

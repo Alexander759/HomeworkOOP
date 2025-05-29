@@ -3,11 +3,6 @@
 
 size_t Grade::currentId = 1;
 
-Grade::Grade() {
-    this->id = currentId;
-    currentId++;
-}
-
 Grade::Grade(double grade, size_t studentId, size_t assignmentId, size_t teacherId, const MyString& message)
     : studentId(studentId), assignmentSolutionId(assignmentId), teacherId(teacherId), message(message) {
     this->id = currentId;
