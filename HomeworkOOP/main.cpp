@@ -114,7 +114,7 @@ int main() {
 	viewAssignmentSubmissions.addRole(Role::Teacher);
 	app.getCommands().add(viewAssignmentSubmissions);
 
-	Command gradeAssignment("grad_assignment", "",
+	Command gradeAssignment("grade_assignment", "",
 		SystemFunctions::validateGradeAssignment, SystemFunctions::gradeAssignment, List<Role>());
 	app.getCommands().add(gradeAssignment);
 
