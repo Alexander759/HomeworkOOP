@@ -1,5 +1,6 @@
 #include "Grade.h"
 #include <stdexcept>
+#include "MyString.h"
 
 size_t Grade::currentId = 1;
 
@@ -8,7 +9,8 @@ Grade::Grade() {
     currentId++;
 }
 
-Grade::Grade(double grade, size_t studentId, size_t assignmentId, size_t teacherId) : studentId(studentId), assignmentSolutionId(assignmentId), teacherId(teacherId) {
+Grade::Grade(double grade, size_t studentId, size_t assignmentId, size_t teacherId, const MyString& message)
+    : studentId(studentId), assignmentSolutionId(assignmentId), teacherId(teacherId), message(message) {
     this->id = currentId;
     currentId++;
     this->setGrade(grade);
@@ -30,6 +32,10 @@ size_t Grade::getTeacherId() const {
     return this->teacherId;
 }
 
+const MyString& Grade::getMessage() const {
+    return this->message;
+}
+
 void Grade::setGrade(double grade) {
     if (this->grade < 2 || 6 < this->grade) {
         throw std::invalid_argument("Grade must be between 2 and 6");
@@ -48,4 +54,8 @@ void Grade::setAssignmenSolutiontId(size_t assignmentSolutionId) {
 
 void Grade::setTeacherId(size_t teacherId) {
     this->teacherId = teacherId;
+}
+
+void Grade::setMessage(const MyString& message) {
+    this->message = message;
 }

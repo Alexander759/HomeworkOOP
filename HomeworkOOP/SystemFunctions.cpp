@@ -444,3 +444,64 @@ CommandResponse SystemFunctions::viewAssignmentSubmissions(System& system, const
     return CommandResponse(true, submissions);
 }
 
+bool SystemFunctions::validateGradeAssignment(const List<MyString>& args) {
+    return args.getLength() >= 5;
+}
+
+CommandResponse SystemFunctions::gradeAssignment(System& system, const List<MyString>& args) {
+    Course& course = system.getCourses().FirstOrDefault([args](const Course& c) -> bool {return c.getName() == args[0]; });
+
+    if (course.getName() != args[0]) {
+        return CommandResponse(false, "Course not found");
+    }
+
+    Assignment& assignment = system.getAssignments().FirstOrDefault([args, course](const Assignment& assignment)
+        -> bool {return assignment.getCourseId() == course.getId() && assignment.getName() == args[1]; });
+
+    if (assignment.getCourseId() != course.getId() || assignment.getName() != args[1]) {
+        return CommandResponse(false, "Assignment not found");
+    }
+
+    size_t studentId = atoi(args[3].getCString());
+    User& student = system.getUsers().FirstOrDefault([studentId](const User& user) -> bool {return user.getId() == studentId; });
+
+    if (student.getId() != studentId) {
+        return CommandResponse(false, "Student not found");
+    }
+
+    if (!course.getStudentIds().contains(studentId)) {
+        return CommandResponse(false, "Student not in course");
+    }
+
+    AssignmentSolution solution = system.getAssignmentSolutions().FirstOrDefault([assignment, student](const AssignmentSolution& assignmentSolution) 
+        -> bool {return assignmentSolution.getStudentId() == student.getId() && assignmentSolution.getAssignmentId() == assignment.getId(); });
+
+    if (solution.getStudentId() != student.getId() || solution.getAssignmentId() != assignment.getId()) {
+        return CommandResponse(false, "Assignment solution not in course");
+    }
+
+
+    MyString message;
+    for (size_t i = 5; i < args.getLength(); i++) {
+        message += args[i] + " ";
+    }
+
+    message = message.subStr(0, message.getLength() - 1);
+
+
+    Grade grade((double)atoi(args[4].getCString()), student.getId(), assignment.getId(),
+        system.getUser().getId(), message);
+    system.getGrades().add(grade);
+
+    MyString emailMessage = system.getUser().getFullName() + " graded your work on "
+        + assignment.getName() + " in " + course.getName();
+
+    List<MyString> emailArgs;
+    emailArgs.add(student.getId());
+    emailArgs.add(emailMessage);
+
+    SystemFunctions::message(system, emailArgs);
+
+    return CommandResponse(true, "");
+}
+

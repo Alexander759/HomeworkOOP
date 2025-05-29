@@ -23,6 +23,10 @@ const MyString& User::getLastName() const {
     return this->lastName;
 }
 
+const MyString User::getFullName() const {
+    return this->firstName + " " + this->lastName;
+}
+
 const MyString& User::getPassword() const {
     return this->password;
 }

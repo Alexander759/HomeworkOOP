@@ -12,6 +12,7 @@ public:
 	const size_t getId() const;
 	const MyString& getFirstName() const;
 	const MyString& getLastName() const;
+	const MyString getFullName() const;
 	const MyString& getPassword() const;
 	const List<Role>& getRoles() const;
 	const SystemEmail& getMailBox() const;
