@@ -1,6 +1,5 @@
 #include "Grade.h"
 #include <stdexcept>
-#include "MyString.h"
 
 size_t Grade::currentId = 1;
 

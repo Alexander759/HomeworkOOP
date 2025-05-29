@@ -1,4 +1,5 @@
 #pragma once
+#include "MyString.h"
 
 class Grade {
 public:
