@@ -32,6 +32,14 @@ bool Message::operator!=(const Message& other) const {
 	return this != &other;
 }
 
+size_t Message::getCurrentId() {
+	return Message::currentId;
+}
+
+void Message::setCurrentId(size_t currentId) {
+	Message::currentId = currentId;
+}
+
 std::ofstream& operator<<(std::ofstream& stream, const Message& message) {
 	if (!stream.is_open()) {
 		return stream;
@@ -41,6 +49,19 @@ std::ofstream& operator<<(std::ofstream& stream, const Message& message) {
 	stream.write(reinterpret_cast<const char*>(&message.senderId), sizeof(size_t));
 	stream << message.content;
 	stream << message.timeSended;
+
+	return stream;
+}
+
+std::ifstream& operator>>(std::ifstream& stream, Message& message) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.read(reinterpret_cast<char*>(&message.id), sizeof(size_t));
+	stream.read(reinterpret_cast<char*>(&message.senderId), sizeof(size_t));
+	stream >> message.content;
+	stream >> message.timeSended;
 
 	return stream;
 }

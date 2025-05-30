@@ -12,6 +12,7 @@ public:
 	List<size_t>& getMessagesReceivedIds();
 
 	friend std::ofstream& operator<<(std::ofstream& stream, const SystemEmail& systemEmail);
+	friend std::ifstream& operator>>(std::ifstream& stream, SystemEmail& systemEmail);
 
 private:
 	List<size_t> messagesSendIds;

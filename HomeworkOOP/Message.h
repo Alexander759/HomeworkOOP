@@ -15,10 +15,16 @@ public:
 	bool operator==(const Message& other) const;
 	bool operator!=(const Message& other) const;
 	friend std::ofstream& operator<<(std::ofstream& stream, const Message& message);
+	friend std::ifstream& operator>>(std::ifstream& stream, Message& message);
+
+	static size_t getCurrentId();
+	static void setCurrentId(size_t currentId);
+
 private:
-	static size_t currentId;
 	size_t id;
 	size_t senderId;
 	MyString content;
 	Time timeSended;
+
+	static size_t currentId;
 };

@@ -111,17 +111,42 @@ void User::getNewMessage(size_t message) {
     this->systemEmail.getNewMessage(message);
 }
 
+size_t User::getCurrentId() {
+    return User::currentId;
+}
+
+void User::setCurrentId(size_t currentId) {
+    User::currentId = currentId;
+}
+
 std::ofstream& operator<<(std::ofstream& stream, const User& user) {
     if (!stream.is_open()) {
         return stream;
     }
 
-    stream.write(reinterpret_cast<const char*>(user.id), sizeof(size_t));
+    stream.write(reinterpret_cast<const char*>(&user.id), sizeof(size_t));
 
     stream << user.firstName;
     stream << user.lastName;
+    stream << user.password;
     stream << user.systemEmail;
     stream << user.roles;
+
+    return stream;
+}
+
+std::ifstream& operator>>(std::ifstream& stream, User& user) {
+    if (!stream.is_open()) {
+        return stream;
+    }
+
+    stream.read(reinterpret_cast<char*>(&user.id), sizeof(size_t));
+
+    stream >> user.firstName;
+    stream >> user.lastName;
+    stream >> user.password;
+    stream >> user.systemEmail;
+    stream >> user.roles;
 
     return stream;
 }

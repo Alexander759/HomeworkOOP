@@ -8,6 +8,7 @@ System::System(const MyString& fileName) {
     this->isCurrentlyLoggedIn = false;
     this->currentlyLoggedInId = 0;
     this->fileName = fileName;
+    this->readFromFile();
 }
 
 System::~System() {
@@ -38,6 +39,8 @@ void System::start() {
         if (response.getMessage() != "") {
             std::cout << response.getMessage() << std::endl;
         }
+
+        this->saveToFile();
     }
 }
 
@@ -128,6 +131,26 @@ void System::saveToFile() const {
         return;
     }
 
+    size_t currentId = User::getCurrentId();
+    
+    currentId = User::getCurrentId();
+    stream.write(reinterpret_cast<const char*>(&currentId), sizeof(size_t));
+
+    currentId = Message::getCurrentId();
+    stream.write(reinterpret_cast<const char*>(&currentId), sizeof(size_t));
+
+    currentId = Course::getCurrentId();
+    stream.write(reinterpret_cast<const char*>(&currentId), sizeof(size_t));
+
+    currentId = Assignment::getCurrentId();
+    stream.write(reinterpret_cast<const char*>(&currentId), sizeof(size_t));
+
+    currentId = AssignmentSolution::getCurrentId();
+    stream.write(reinterpret_cast<const char*>(&currentId), sizeof(size_t));
+
+    currentId = Grade::getCurrentId();
+    stream.write(reinterpret_cast<const char*>(&currentId), sizeof(size_t));
+
     stream << this->users;
     stream << this->messages;
     stream << this->courses;
@@ -144,6 +167,35 @@ void System::readFromFile() {
     if (!stream.is_open()) {
         return;
     }
+
+    size_t currentId;
+    
+    stream.read(reinterpret_cast<char*>(&currentId), sizeof(size_t));
+    User::setCurrentId(currentId);
+
+    stream.read(reinterpret_cast<char*>(&currentId), sizeof(size_t));
+    Message::setCurrentId(currentId);
+
+    stream.read(reinterpret_cast<char*>(&currentId), sizeof(size_t));
+    Course::setCurrentId(currentId);
+
+    stream.read(reinterpret_cast<char*>(&currentId), sizeof(size_t));
+    Assignment::setCurrentId(currentId);
+
+    stream.read(reinterpret_cast<char*>(&currentId), sizeof(size_t));
+    AssignmentSolution::setCurrentId(currentId);
+
+    stream.read(reinterpret_cast<char*>(&currentId), sizeof(size_t));
+    Grade::setCurrentId(currentId);
+
+    stream >> this->users;
+    stream >> this->messages;
+    stream >> this->courses;
+    stream >> this->assignments;
+    stream >> this->assignmentSolutions;
+    stream >> this->grades;
+
+    stream.close();
 
 }
 

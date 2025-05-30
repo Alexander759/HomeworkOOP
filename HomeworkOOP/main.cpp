@@ -17,11 +17,11 @@ int main() {
 	List<Role> guest;
 	guest.add(Role::Guest);
 
-	User admin("admin", "", "0000", adminList);
+	/*User admin("admin", "", "0000", adminList);
 	admin.addRole(Role::Guest);
 	app.getUsers().add(admin);
 
-	User::currentId = 100;
+	User::setCurrentId(100);*/
 
 	Command login("login", "",
 		SystemFunctions::validateLogin, SystemFunctions::login, guest);

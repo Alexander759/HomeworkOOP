@@ -66,6 +66,14 @@ void Grade::setMessage(const MyString& message) {
     this->message = message;
 }
 
+size_t Grade::getCurrentId() {
+    return Grade::currentId;
+}
+
+void Grade::setCurrentId(size_t currentId) {
+    Grade::currentId = currentId;
+}
+
 std::ofstream& operator<<(std::ofstream& stream, const Grade& grade) {
     if (!stream.is_open()) {
         return stream;
@@ -77,6 +85,21 @@ std::ofstream& operator<<(std::ofstream& stream, const Grade& grade) {
     stream.write(reinterpret_cast<const char*>(&grade.assignmentSolutionId), sizeof(size_t));
     stream.write(reinterpret_cast<const char*>(&grade.teacherId), sizeof(size_t));
     stream << grade.message;
+
+    return stream;
+}
+
+std::ifstream& operator>>(std::ifstream& stream, Grade& grade) {
+    if (!stream.is_open()) {
+        return stream;
+    }
+
+    stream.read(reinterpret_cast<char*>(&grade.id), sizeof(size_t));
+    stream.read(reinterpret_cast<char*>(&grade.grade), sizeof(double));
+    stream.read(reinterpret_cast<char*>(&grade.studentId), sizeof(size_t));
+    stream.read(reinterpret_cast<char*>(&grade.assignmentSolutionId), sizeof(size_t));
+    stream.read(reinterpret_cast<char*>(&grade.teacherId), sizeof(size_t));
+    stream >> grade.message;
 
     return stream;
 }

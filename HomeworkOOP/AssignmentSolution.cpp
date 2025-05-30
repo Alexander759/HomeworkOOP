@@ -32,6 +32,14 @@ bool AssignmentSolution::operator!=(const AssignmentSolution& other) const {
 	return this->id == other.getId();
 }
 
+size_t AssignmentSolution::getCurrentId() {
+	return AssignmentSolution::currentId;
+}
+
+void AssignmentSolution::setCurrentId(size_t currentId) {
+	AssignmentSolution::currentId = currentId;
+}
+
 std::ofstream& operator<<(std::ofstream& stream, const AssignmentSolution& assignmentSolution) {
 	if (!stream.is_open()) {
 		return stream;
@@ -41,5 +49,17 @@ std::ofstream& operator<<(std::ofstream& stream, const AssignmentSolution& assig
 	stream.write(reinterpret_cast<const char*>(&assignmentSolution.studentId), sizeof(size_t));
 	stream.write(reinterpret_cast<const char*>(&assignmentSolution.assignmentId), sizeof(size_t));
 	stream << assignmentSolution.solution;
+	return stream;
+}
+
+std::ifstream& operator>>(std::ifstream& stream, AssignmentSolution& assignmentSolution) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.read(reinterpret_cast<char*>(&assignmentSolution.id), sizeof(size_t));
+	stream.read(reinterpret_cast<char*>(&assignmentSolution.studentId), sizeof(size_t));
+	stream.read(reinterpret_cast<char*>(&assignmentSolution.assignmentId), sizeof(size_t));
+	stream >> assignmentSolution.solution;
 	return stream;
 }

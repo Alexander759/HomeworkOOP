@@ -24,6 +24,7 @@ public:
 	bool operator<=(const Time& other) const;
 
 	friend std::ofstream& operator<<(std::ofstream& stream, const Time& time);
+	friend std::ifstream& operator>>(std::ifstream& stream, Time& time);
 private:
 	int seconds;
 	int minutes;

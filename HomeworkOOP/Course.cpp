@@ -64,6 +64,14 @@ void Course::setPassword(const MyString& password) {
 	this->password = password;
 }
 
+size_t Course::getCurrentId() {
+	return Course::currentId;
+}
+
+void Course::setCurrentId(size_t currentId) {
+	Course::currentId = currentId;
+}
+
 std::ofstream& operator<<(std::ofstream& stream, const Course& course) {
 	if (!stream.is_open()) {
 		return stream;
@@ -76,6 +84,22 @@ std::ofstream& operator<<(std::ofstream& stream, const Course& course) {
 	stream << course.teacherIds;
 	stream << course.studentIds;
 	stream << course.assignmentIds;
+
+	return stream;
+}
+
+std::ifstream& operator>>(std::ifstream& stream, Course& course) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.read(reinterpret_cast<char*>(&course.id), sizeof(size_t));
+	stream.read(reinterpret_cast<char*>(&course.creatorId), sizeof(size_t));
+	stream >> course.name;
+	stream >> course.password;
+	stream >> course.teacherIds;
+	stream >> course.studentIds;
+	stream >> course.assignmentIds;
 
 	return stream;
 }

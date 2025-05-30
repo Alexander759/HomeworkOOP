@@ -35,3 +35,14 @@ std::ofstream& operator<<(std::ofstream& stream, const SystemEmail& systemEmail)
 
     return stream;
 }
+
+std::ifstream& operator>>(std::ifstream& stream, SystemEmail& systemEmail) {
+    if (!stream.is_open()) {
+        return stream;
+    }
+
+    stream >> systemEmail.messagesSendIds;
+    stream >> systemEmail.messagesReceivedIds;
+
+    return stream;
+}

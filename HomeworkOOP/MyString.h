@@ -43,6 +43,7 @@ public:
 	MyString& operator+=(const MyString& str);
 
 	friend std::ofstream& operator<<(std::ofstream& stream, const MyString& string);
+	friend std::ifstream& operator>>(std::ifstream& stream, MyString& string);
 
 
 	friend std::ostream& operator<<(std::ostream& stream, const MyString& string);

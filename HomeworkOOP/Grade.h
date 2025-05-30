@@ -17,6 +17,7 @@ public:
 	bool operator!=(const Grade& other) const;
 
 	friend std::ofstream& operator<<(std::ofstream& stream, const Grade& grade);
+	friend std::ifstream& operator>>(std::ifstream& stream, Grade& grade);
 
 	void setGrade(double grade);
 	void setStudentId(size_t studentId);
@@ -24,13 +25,16 @@ public:
 	void setTeacherId(size_t teacherId);
 	void setMessage(const MyString& message);
 
-private:
-	static size_t currentId;
+	static size_t getCurrentId();
+	static void setCurrentId(size_t currentId);
 
+private:
 	size_t id;
 	double grade;
 	size_t studentId;
 	size_t assignmentSolutionId;
 	size_t teacherId;
 	MyString message;
+
+	static size_t currentId;
 };

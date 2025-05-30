@@ -18,6 +18,7 @@ public:
 	bool operator!=(const Course& other) const;
 
 	friend std::ofstream& operator<<(std::ofstream& stream, const Course& course);
+	friend std::ifstream& operator>>(std::ifstream& stream, Course& course);
 
 	List<size_t>& getTeacherIds();
 	List<size_t>& getStudentIds();
@@ -25,9 +26,11 @@ public:
 
 	void setName(const MyString& name);
 	void setPassword(const MyString& password);
-private:
-	static size_t currentId;
 
+	static size_t getCurrentId();
+	static void setCurrentId(size_t currentId);
+
+private:
 	size_t id;
 	size_t creatorId;
 	MyString name;
@@ -35,4 +38,6 @@ private:
 	List<size_t> teacherIds;
 	List<size_t> studentIds;
 	List<size_t> assignmentIds;
+
+	static size_t currentId; 
 };

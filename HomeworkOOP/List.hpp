@@ -9,7 +9,7 @@ public:
 	List();
 	List(const T* items, size_t length);
 	List(const List<T>& other);
-	List(List<T>&& other);
+	List(List<T>&& other) noexcept;
 	List<T>& operator=(const List<T>& other);
 	List<T>& operator=(List<T>&& other);
 	~List();
@@ -32,7 +32,11 @@ public:
 	void clear();
 	size_t getLength() const;
 	
-	friend std::ofstream& operator<<(std::ofstream& stream, const List<T>& list);
+	template <typename U>
+	friend std::ofstream& operator<<(std::ofstream& stream, const List<U>& list);
+
+	template <typename U>
+	friend std::ifstream& operator>>(std::ifstream& stream, List<U>& list);
 
 	bool operator==(const List<T>& other) const;
 	bool operator!=(const List<T>& other) const;
@@ -77,7 +81,7 @@ inline List<T>::List(const List<T>& other) {
 }
 
 template<class T>
-inline List<T>::List(List<T>&& other) {
+inline List<T>::List(List<T>&& other) noexcept {
 	this->length = other.length;
 	this->capacity = other.capacity;
 	this->content = other.content;
@@ -186,7 +190,7 @@ inline size_t List<T>::getLength() const {
 }
 
 template<typename T>
-std::ofstream& operator<<(std::ofstream& stream, const List<T>& list) {
+inline std::ofstream& operator<<(std::ofstream& stream, const List<T>& list) {
 	if (!stream.is_open()) {
 		return stream;
 	}
@@ -200,6 +204,7 @@ std::ofstream& operator<<(std::ofstream& stream, const List<T>& list) {
 	return stream;
 }
 
+template<>
 inline std::ofstream& operator<<(std::ofstream& stream, const List<size_t>& list) {
 	if (!stream.is_open()) {
 		return stream;
@@ -214,6 +219,7 @@ inline std::ofstream& operator<<(std::ofstream& stream, const List<size_t>& list
 	return stream;
 }
 
+template<>
 inline std::ofstream& operator<<(std::ofstream& stream, const List<Role>& list) {
 	if (!stream.is_open()) {
 		return stream;
@@ -223,6 +229,56 @@ inline std::ofstream& operator<<(std::ofstream& stream, const List<Role>& list) 
 	stream.write(reinterpret_cast<const char*>(&list.capacity), sizeof(size_t));
 	for (size_t i = 0; i < list.length; i++) {
 		stream.write(reinterpret_cast<const char*>(&list.content[i]), sizeof(Role));
+	}
+
+	return stream;
+}
+
+template<typename T>
+inline std::ifstream& operator>>(std::ifstream& stream, List<T>& list) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	list.free();
+
+	stream.read(reinterpret_cast<char*>(&list.length), sizeof(size_t));
+	stream.read(reinterpret_cast<char*>(&list.capacity), sizeof(size_t));
+	list.content = new T[list.length];
+	for (size_t i = 0; i < list.length; i++) {
+		stream >> list.content[i];
+	}
+
+	return stream;
+}
+
+template<>
+inline std::ifstream& operator>>(std::ifstream& stream, List<size_t>& list) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+	list.free();
+	stream.read(reinterpret_cast<char*>(&list.length), sizeof(size_t));
+	stream.read(reinterpret_cast<char*>(&list.capacity), sizeof(size_t));
+	list.content = new size_t[list.length];
+	for (size_t i = 0; i < list.length; i++) {
+		stream.read(reinterpret_cast<char*>(&list.content[i]), sizeof(size_t));
+	}
+
+	return stream;
+}
+
+template<>
+inline std::ifstream& operator>>(std::ifstream& stream, List<Role>& list) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+	list.free();
+	stream.read(reinterpret_cast<char*>(&list.length), sizeof(size_t));
+	stream.read(reinterpret_cast<char*>(&list.capacity), sizeof(size_t));
+	list.content = new Role[list.length];
+	for (size_t i = 0; i < list.length; i++) {
+		stream.read(reinterpret_cast<char*>(&list.content[i]), sizeof(Role));
 	}
 
 	return stream;

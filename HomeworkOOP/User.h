@@ -22,6 +22,7 @@ public:
 	bool operator==(const User& user) const;
 	bool operator!=(const User& user) const;
 	friend std::ofstream& operator<<(std::ofstream& stream, const User& user);
+	friend std::ifstream& operator>>(std::ifstream& stream, User& user);
 
 
 	void setFirstName(const MyString& newFirstName);
@@ -30,7 +31,9 @@ public:
 	void addRole(Role role);
 	void removeRole(Role role);
 	void getNewMessage(size_t message);
-	static size_t currentId;
+	
+	static size_t getCurrentId();
+	static void setCurrentId(size_t currentId);
 private:
 	size_t id;
 	MyString firstName;
@@ -38,4 +41,6 @@ private:
 	MyString password;
 	SystemEmail systemEmail;
 	List<Role> roles;
+	
+	static size_t currentId;
 };

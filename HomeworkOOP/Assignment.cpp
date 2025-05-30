@@ -34,6 +34,14 @@ void Assignment::setName(const MyString& name) {
 	this->name = name;
 }
 
+size_t Assignment::getCurrentId() {
+	return Assignment::currentId;
+}
+
+void Assignment::setCurrentId(size_t currentId) {
+	Assignment::currentId = currentId;
+}
+
 std::ofstream& operator<<(std::ofstream& stream, const Assignment& assignment) {
 	if (!stream.is_open()) {
 		return stream;
@@ -42,6 +50,18 @@ std::ofstream& operator<<(std::ofstream& stream, const Assignment& assignment) {
 	stream.write(reinterpret_cast<const char*>(&assignment.id), sizeof(size_t));
 	stream.write(reinterpret_cast<const char*>(&assignment.courseId), sizeof(size_t));
 	stream << assignment.name;
+
+	return stream;
+}
+
+std::ifstream& operator>>(std::ifstream& stream, Assignment& assignment) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.read(reinterpret_cast<char*>(&assignment.id), sizeof(size_t));
+	stream.read(reinterpret_cast<char*>(&assignment.courseId), sizeof(size_t));
+	stream >> assignment.name;
 
 	return stream;
 }

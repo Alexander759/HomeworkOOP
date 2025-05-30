@@ -15,11 +15,15 @@ public:
 	void setName(const MyString& name);
 
 	friend std::ofstream& operator<<(std::ofstream& stream, const Assignment& assignment);
+	friend std::ifstream& operator>>(std::ifstream& stream, Assignment& assignment);
+
+	static size_t getCurrentId();
+	static void setCurrentId(size_t currentId);
 
 private:
-	static size_t currentId;
-
 	size_t id;
 	size_t courseId;
 	MyString name;
+
+	static size_t currentId;
 };

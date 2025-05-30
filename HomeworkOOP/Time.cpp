@@ -141,3 +141,17 @@ std::ofstream& operator<<(std::ofstream& stream, const Time& time) {
 
 	return stream;
 }
+
+std::ifstream& operator>>(std::ifstream& stream, Time& time) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.read(reinterpret_cast<char*>(&time.seconds), sizeof(int));
+	stream.read(reinterpret_cast<char*>(&time.minutes), sizeof(int));
+	stream.read(reinterpret_cast<char*>(&time.days), sizeof(int));
+	stream.read(reinterpret_cast<char*>(&time.month), sizeof(int));
+	stream.read(reinterpret_cast<char*>(&time.year), sizeof(int));
+
+	return stream;
+}

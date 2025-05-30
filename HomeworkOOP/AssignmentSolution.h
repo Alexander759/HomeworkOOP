@@ -14,12 +14,16 @@ public:
 	bool operator!=(const AssignmentSolution& other) const;
 
 	friend std::ofstream& operator<<(std::ofstream& stream, const AssignmentSolution& assignmentSolution);
+	friend std::ifstream& operator>>(std::ifstream& stream, AssignmentSolution& assignmentSolution);
+
+	static size_t getCurrentId();
+	static void setCurrentId(size_t currentId);
 
 private:
-	static size_t currentId;
-
 	size_t id;
 	size_t studentId;
 	size_t assignmentId;
 	MyString solution;
+	
+	static size_t currentId;
 };

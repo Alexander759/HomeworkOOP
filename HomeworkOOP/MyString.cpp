@@ -453,6 +453,21 @@ std::ofstream& operator<<(std::ofstream& stream, const MyString& string) {
     return stream;
 }
 
+std::ifstream& operator>>(std::ifstream& stream, MyString& string) {
+    if (!stream.is_open()) {
+        return stream;
+    }
+
+    string.free();
+
+    stream.read(reinterpret_cast<char*>(&string.length), sizeof(size_t));
+
+    string.content = new char[string.length + 1];
+    stream.read(reinterpret_cast<char*>(string.content), string.length + 1);
+
+    return stream;
+}
+
 std::ostream& operator<<(std::ostream& stream, const MyString& string) {
     stream << string.content;
     return stream;
