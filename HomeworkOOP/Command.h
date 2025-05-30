@@ -22,6 +22,7 @@ public:
 	const MyString& getCommandHelp() const;
 	bool operator==(const Command& other) const;
 	bool operator!=(const Command& other) const;
+	const MyString getFullCommandHelp() const;
 	void addRole(Role role);
 	void removeRole(Role role);
 private:

@@ -143,6 +143,40 @@ CommandResponse SystemFunctions::clearMailBox(System& system, const List<MyStrin
     return CommandResponse(true, "Mailbox cleared");
 }
 
+bool SystemFunctions::validateViewMailBox(const List<MyString>& args) {
+    return args.getLength() == 1 && args[0].isSizeT();
+}
+
+CommandResponse SystemFunctions::viewMailBox(System& system, const List<MyString>& args) {
+    size_t userId = args[0].toSizeT();
+    User& user = system.getUsers().FirstOrDefault([userId](const User& user) -> bool {return user.getId() == userId; });
+
+    if (user.getId() != userId) {
+        return CommandResponse(false, "User not found");
+    }
+
+    List<size_t> messageIds = user.getMailBox().getMessagesReceivedIds();
+    MyString responseContent;
+    for (size_t i = 0; i < messageIds.getLength(); i++) {
+        size_t currentId = messageIds[i];
+        Message& messsage = system.getMessages().FirstOrDefault([currentId](const Message& message) -> bool {return message.getId() == currentId; });
+        User& sender = system.getUsers().FirstOrDefault([messsage](const User& user) -> bool {return messsage.getSenderId() == user.getId(); });
+
+        responseContent += messsage.getTimeSended().toStringFormat() + ", sent by "
+            + sender.getFullName() + ": " + messsage.getContent();
+
+        if (i != messageIds.getLength() - 1) {
+            responseContent += "\n";
+        }
+    }
+
+    if (responseContent.getLength() == 0) {
+        responseContent = "No messages to show";
+    }
+
+    return CommandResponse(true, responseContent);
+}
+
 bool SystemFunctions::validateAddTeacher(const List<MyString>& args) {
     return args.getLength() == 3;
 }
@@ -376,6 +410,10 @@ CommandResponse SystemFunctions::submitAssignment(System& system, const List<MyS
         return CommandResponse(false, "Course not found");
     }
 
+    if (system.getAssignments().getLength() == 0) {
+        return CommandResponse(false, "Assignment not found");
+    }
+
     Assignment& assignment = system.getAssignments().FirstOrDefault([args, course](const Assignment& assignment)
         -> bool {return assignment.getCourseId() == course.getId() && assignment.getName() == args[1]; });
 
@@ -558,6 +596,26 @@ CommandResponse SystemFunctions::viewGrades(System& system, const List<MyString>
     else {
         message = message.subStr(0, message.getLength() - 1);
     }
+
+    return CommandResponse(true, message);
+}
+
+bool SystemFunctions::validateHelp(const List<MyString>& args) {
+    return true;
+}
+
+CommandResponse SystemFunctions::help(System& system, const List<MyString>& args) {
+    MyString message;
+
+    for (size_t i = 0; i < system.getCommands().getLength(); i++) {
+        Command& command = system.getCommands()[i];
+
+        if (command.userHasAllowedRole(system.getCurrentUserRoles())) {
+            message += command.getFullCommandHelp() + "\n";
+        }
+    }
+
+    message = message.subStr(0, message.getLength() - 1);
 
     return CommandResponse(true, message);
 }

@@ -36,7 +36,7 @@ size_t AssignmentSolution::getCurrentId() {
 	return AssignmentSolution::currentId;
 }
 
-void AssignmentSolution::setCurrentId(size_t currentId) {
+void AssignmentSolution::setCurrentId(size_t currentId) {   
 	AssignmentSolution::currentId = currentId;
 }
 

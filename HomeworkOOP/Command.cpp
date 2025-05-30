@@ -32,7 +32,7 @@ CommandResponse Command::run(System& system, const List<MyString>& args) {
 	}
 
 	if (!validateArgsPtr(args)) {
-		return CommandResponse(false, "Arguments invalid");
+		return CommandResponse(false, MyString("Invalid arguments\n") + this->getFullCommandHelp());
 	}
 
 	return this->commandPtr(system, args);
@@ -77,6 +77,10 @@ bool Command::operator==(const Command& other) const {
 
 bool Command::operator!=(const Command& other) const {
 	return this != &other;
+}
+
+const MyString Command::getFullCommandHelp() const {
+	return this->commandName + " " + this->commandHelp;
 }
 
 void Command::addRole(Role role) {

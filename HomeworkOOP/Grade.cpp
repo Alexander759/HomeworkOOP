@@ -43,7 +43,7 @@ bool Grade::operator!=(const Grade& other) const {
 }
 
 void Grade::setGrade(double grade) {
-    if (this->grade < 2 || this->grade < 6) {
+    if (grade < 2 || grade > 6) {
         throw std::invalid_argument("Grade must be between 2 and 6");
     }
 

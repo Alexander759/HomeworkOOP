@@ -135,6 +135,7 @@ std::ofstream& operator<<(std::ofstream& stream, const Time& time) {
 
 	stream.write(reinterpret_cast<const char*>(&time.seconds), sizeof(int));
 	stream.write(reinterpret_cast<const char*>(&time.minutes), sizeof(int));
+	stream.write(reinterpret_cast<const char*>(&time.hours), sizeof(int));
 	stream.write(reinterpret_cast<const char*>(&time.days), sizeof(int));
 	stream.write(reinterpret_cast<const char*>(&time.month), sizeof(int));
 	stream.write(reinterpret_cast<const char*>(&time.year), sizeof(int));
@@ -149,6 +150,7 @@ std::ifstream& operator>>(std::ifstream& stream, Time& time) {
 
 	stream.read(reinterpret_cast<char*>(&time.seconds), sizeof(int));
 	stream.read(reinterpret_cast<char*>(&time.minutes), sizeof(int));
+	stream.read(reinterpret_cast<char*>(&time.hours), sizeof(int));
 	stream.read(reinterpret_cast<char*>(&time.days), sizeof(int));
 	stream.read(reinterpret_cast<char*>(&time.month), sizeof(int));
 	stream.read(reinterpret_cast<char*>(&time.year), sizeof(int));

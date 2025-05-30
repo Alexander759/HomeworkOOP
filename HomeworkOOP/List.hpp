@@ -244,7 +244,7 @@ inline std::ifstream& operator>>(std::ifstream& stream, List<T>& list) {
 
 	stream.read(reinterpret_cast<char*>(&list.length), sizeof(size_t));
 	stream.read(reinterpret_cast<char*>(&list.capacity), sizeof(size_t));
-	list.content = new T[list.length];
+	list.content = new T[list.capacity];
 	for (size_t i = 0; i < list.length; i++) {
 		stream >> list.content[i];
 	}

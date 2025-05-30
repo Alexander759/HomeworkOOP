@@ -23,6 +23,9 @@ public:
 	static bool validateClearMailBox(const List<MyString>& args);
 	static CommandResponse clearMailBox(System& system, const List<MyString>& args);
 
+	static bool validateViewMailBox(const List<MyString>& args);
+	static CommandResponse viewMailBox(System& system, const List<MyString>& args);
+
 	static bool validateAddTeacher(const List<MyString>& args);
 	static CommandResponse addTeacher(System& system, const List<MyString>& args);
 
@@ -61,5 +64,8 @@ public:
 
 	static bool validateViewGrades(const List<MyString>& args);
 	static CommandResponse viewGrades(System& system, const List<MyString>& args);
+
+	static bool validateHelp(const List<MyString>& args);
+	static CommandResponse help(System& system, const List<MyString>& args);
 
 };
