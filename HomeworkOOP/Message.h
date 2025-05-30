@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include "MyString.h"
 #include "Time.h"
 
@@ -13,11 +14,11 @@ public:
 	const Time& getTimeSended() const;
 	bool operator==(const Message& other) const;
 	bool operator!=(const Message& other) const;
+	friend std::ofstream& operator<<(std::ofstream& stream, const Message& message);
 private:
 	static size_t currentId;
 	size_t id;
 	size_t senderId;
-	//User* sender;
 	MyString content;
 	Time timeSended;
 };

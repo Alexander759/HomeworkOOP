@@ -31,3 +31,16 @@ bool Message::operator==(const Message& other) const {
 bool Message::operator!=(const Message& other) const {
 	return this != &other;
 }
+
+std::ofstream& operator<<(std::ofstream& stream, const Message& message) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.write(reinterpret_cast<const char*>(&message.id), sizeof(size_t));
+	stream.write(reinterpret_cast<const char*>(&message.senderId), sizeof(size_t));
+	stream << message.content;
+	stream << message.timeSended;
+
+	return stream;
+}

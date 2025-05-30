@@ -1,5 +1,6 @@
 #pragma once
 #include "MyString.h"
+#include <fstream>
 
 class Time {
 public:
@@ -21,6 +22,8 @@ public:
 	bool operator<(const Time& other) const;
 	bool operator>=(const Time& other) const;
 	bool operator<=(const Time& other) const;
+
+	friend std::ofstream& operator<<(std::ofstream& stream, const Time& time);
 private:
 	int seconds;
 	int minutes;

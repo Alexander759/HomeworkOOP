@@ -21,6 +21,8 @@ public:
 	MyString getMainRole() const;
 	bool operator==(const User& user) const;
 	bool operator!=(const User& user) const;
+	friend std::ofstream& operator<<(std::ofstream& stream, const User& user);
+
 
 	void setFirstName(const MyString& newFirstName);
 	void setLastName(const MyString& newLastName);
@@ -28,8 +30,8 @@ public:
 	void addRole(Role role);
 	void removeRole(Role role);
 	void getNewMessage(size_t message);
-private:
 	static size_t currentId;
+private:
 	size_t id;
 	MyString firstName;
 	MyString lastName;

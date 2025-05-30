@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include "List.hpp"
 
 class MyString {
@@ -21,6 +22,7 @@ public:
 	MyString subStr(size_t start, size_t end) const;
 	List<MyString> separate(char separator = ' ') const;
 	size_t getLength() const;
+	void serialize(std::ofstream& stream) const;
 	bool operator==(const MyString& other) const;
 	bool operator!=(const MyString& other) const;
 	bool operator>(const MyString& other) const;
@@ -39,6 +41,9 @@ public:
 	
 	MyString operator+(const MyString& str) const;
 	MyString& operator+=(const MyString& str);
+
+	friend std::ofstream& operator<<(std::ofstream& stream, const MyString& string);
+
 
 	friend std::ostream& operator<<(std::ostream& stream, const MyString& string);
 	friend std::istream& operator>>(std::istream& stream, MyString& string);

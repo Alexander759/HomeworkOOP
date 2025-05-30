@@ -10,6 +10,9 @@ public:
 	List<size_t>& getMessagesSendIds();
 	const List<size_t>& getMessagesReceivedIds() const;
 	List<size_t>& getMessagesReceivedIds();
+
+	friend std::ofstream& operator<<(std::ofstream& stream, const SystemEmail& systemEmail);
+
 private:
 	List<size_t> messagesSendIds;
 	List<size_t> messagesReceivedIds;

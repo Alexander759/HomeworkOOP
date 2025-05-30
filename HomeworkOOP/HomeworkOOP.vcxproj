@@ -128,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Assignment.cpp" />
-    <ClCompile Include="AssignmentSolutions.cpp" />
+    <ClCompile Include="AssignmentSolution.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandReader.cpp" />
     <ClCompile Include="CommandResponse.cpp" />

@@ -1,11 +1,13 @@
 #include "System.h"
 #include <stdexcept>
+#include <fstream>
 #include "CommandReader.h"
 #include "AssignmentSolution.h"
 
-System::System() {
+System::System(const MyString& fileName) {
     this->isCurrentlyLoggedIn = false;
     this->currentlyLoggedInId = 0;
+    this->fileName = fileName;
 }
 
 System::~System() {
@@ -119,6 +121,32 @@ List<Command>& System::getCommands() {
     return this->commands;
 }
 
+void System::saveToFile() const {
+    std::ofstream stream(fileName.getCString(), std::ios::out | std::ios::binary);
+
+    if (!stream.is_open()) {
+        return;
+    }
+
+    stream << this->users;
+    stream << this->messages;
+    stream << this->courses;
+    stream << this->assignments;
+    stream << this->assignmentSolutions;
+    stream << this->grades;
+
+    stream.close();
+}
+
+void System::readFromFile() {
+    std::ifstream stream(fileName.getCString(), std::ios::in | std::ios::binary);
+    
+    if (!stream.is_open()) {
+        return;
+    }
+
+}
+
 List<Course>& System::getCourses() {
     return this->courses;
 }
@@ -134,4 +162,3 @@ List<AssignmentSolution>& System::getAssignmentSolutions() {
 List<Grade>& System::getGrades() {
     return this->grades;
 }
-

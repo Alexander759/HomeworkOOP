@@ -1,5 +1,6 @@
 #pragma once
 #include "User.h"
+#include <fstream>
 
 class Course {
 public:
@@ -13,6 +14,10 @@ public:
 	const List<size_t>& getTeacherIds() const;
 	const List<size_t>& getStudentIds() const;
 	const List<size_t>& getAssignmentIds() const;
+	bool operator==(const Course& other) const;
+	bool operator!=(const Course& other) const;
+
+	friend std::ofstream& operator<<(std::ofstream& stream, const Course& course);
 
 	List<size_t>& getTeacherIds();
 	List<size_t>& getStudentIds();
@@ -24,9 +29,9 @@ private:
 	static size_t currentId;
 
 	size_t id;
+	size_t creatorId;
 	MyString name;
 	MyString password;
-	size_t creatorId;
 	List<size_t> teacherIds;
 	List<size_t> studentIds;
 	List<size_t> assignmentIds;

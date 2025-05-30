@@ -61,7 +61,7 @@ MyString::MyString(double num) {
     num -= integerPart;
     *this += MyString(integerPart);
     
-    const int PRECISION = 6;
+    const int PRECISION = 10;
 
     int leadingZeroes = 0;
     double numCopy = num;
@@ -211,6 +211,15 @@ List<MyString> MyString::separate(char separator) const {
 
 size_t MyString::getLength() const {
     return this->length;
+}
+
+void MyString::serialize(std::ofstream& stream) const {
+    if (!stream.is_open()) {
+        return;
+    }
+
+    stream << this->length;
+    stream << this->content;
 }
 
 bool MyString::operator==(const MyString& other) const {
@@ -431,6 +440,17 @@ void MyString::free() {
     delete[] this->content;
     this->content = nullptr;
     this->length = 0;
+}
+
+std::ofstream& operator<<(std::ofstream& stream, const MyString& string) {
+    if (!stream.is_open()) {
+        return stream;
+    }
+
+    stream.write(reinterpret_cast<const char*>(&string.length), sizeof(size_t));
+    stream.write(reinterpret_cast<const char*>(string.content), string.length + 1);
+
+    return stream;
 }
 
 std::ostream& operator<<(std::ostream& stream, const MyString& string) {

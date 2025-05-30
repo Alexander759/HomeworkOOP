@@ -1,5 +1,7 @@
 #pragma once
 #include <stdexcept>
+#include <fstream>
+#include "Role.h"
 
 template <typename T>
 class List {
@@ -30,6 +32,8 @@ public:
 	void clear();
 	size_t getLength() const;
 	
+	friend std::ofstream& operator<<(std::ofstream& stream, const List<T>& list);
+
 	bool operator==(const List<T>& other) const;
 	bool operator!=(const List<T>& other) const;
 	const T& operator[](size_t index) const;
@@ -179,6 +183,49 @@ inline void List<T>::clear() {
 template<class T>
 inline size_t List<T>::getLength() const {
 	return this->length;
+}
+
+template<typename T>
+std::ofstream& operator<<(std::ofstream& stream, const List<T>& list) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.write(reinterpret_cast<const char*>(&list.length), sizeof(size_t));
+	stream.write(reinterpret_cast<const char*>(&list.capacity), sizeof(size_t));
+	for (size_t i = 0; i < list.length; i++) {
+		stream << list.content[i];
+	}
+
+	return stream;
+}
+
+inline std::ofstream& operator<<(std::ofstream& stream, const List<size_t>& list) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.write(reinterpret_cast<const char*>(&list.length), sizeof(size_t));
+	stream.write(reinterpret_cast<const char*>(&list.capacity), sizeof(size_t));
+	for (size_t i = 0; i < list.length; i++) {
+		stream.write(reinterpret_cast<const char*>(&list.content[i]), sizeof(size_t));
+	}
+
+	return stream;
+}
+
+inline std::ofstream& operator<<(std::ofstream& stream, const List<Role>& list) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.write(reinterpret_cast<const char*>(&list.length), sizeof(size_t));
+	stream.write(reinterpret_cast<const char*>(&list.capacity), sizeof(size_t));
+	for (size_t i = 0; i < list.length; i++) {
+		stream.write(reinterpret_cast<const char*>(&list.content[i]), sizeof(Role));
+	}
+
+	return stream;
 }
 
 template<class T>

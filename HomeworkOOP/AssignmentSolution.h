@@ -10,6 +10,10 @@ public:
 	const size_t getStudentId() const;
 	const size_t getAssignmentId() const;
 	const MyString& getSolution() const;
+	bool operator==(const AssignmentSolution& other) const;
+	bool operator!=(const AssignmentSolution& other) const;
+
+	friend std::ofstream& operator<<(std::ofstream& stream, const AssignmentSolution& assignmentSolution);
 
 private:
 	static size_t currentId;

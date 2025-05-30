@@ -10,6 +10,10 @@ Grade::Grade(double grade, size_t studentId, size_t assignmentId, size_t teacher
     this->setGrade(grade);
 }
 
+size_t Grade::getId() const {
+    return this->id;
+}
+
 double Grade::getGrade() const {
     return this->grade;
 }
@@ -30,8 +34,16 @@ const MyString& Grade::getMessage() const {
     return this->message;
 }
 
+bool Grade::operator==(const Grade& other) const {
+    return this->id == other.getId();
+}
+
+bool Grade::operator!=(const Grade& other) const {
+    return this->id != other.getId();;
+}
+
 void Grade::setGrade(double grade) {
-    if (this->grade < 2 || 6 < this->grade) {
+    if (this->grade < 2 || this->grade < 6) {
         throw std::invalid_argument("Grade must be between 2 and 6");
     }
 
@@ -52,4 +64,19 @@ void Grade::setTeacherId(size_t teacherId) {
 
 void Grade::setMessage(const MyString& message) {
     this->message = message;
+}
+
+std::ofstream& operator<<(std::ofstream& stream, const Grade& grade) {
+    if (!stream.is_open()) {
+        return stream;
+    }
+    
+    stream.write(reinterpret_cast<const char*>(&grade.id), sizeof(size_t));
+    stream.write(reinterpret_cast<const char*>(&grade.grade), sizeof(double));
+    stream.write(reinterpret_cast<const char*>(&grade.studentId), sizeof(size_t));
+    stream.write(reinterpret_cast<const char*>(&grade.assignmentSolutionId), sizeof(size_t));
+    stream.write(reinterpret_cast<const char*>(&grade.teacherId), sizeof(size_t));
+    stream << grade.message;
+
+    return stream;
 }

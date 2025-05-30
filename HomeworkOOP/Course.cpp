@@ -36,6 +36,14 @@ const List<size_t>& Course::getAssignmentIds() const {
 	return this->assignmentIds;
 }
 
+bool Course::operator==(const Course& other) const {
+	return this->id == other.getId();
+}
+
+bool Course::operator!=(const Course& other) const {
+	return this->id == other.getId();
+}
+
 List<size_t>& Course::getTeacherIds() {
 	return this->teacherIds;
 }
@@ -54,4 +62,20 @@ void Course::setName(const MyString& name) {
 
 void Course::setPassword(const MyString& password) {
 	this->password = password;
+}
+
+std::ofstream& operator<<(std::ofstream& stream, const Course& course) {
+	if (!stream.is_open()) {
+		return stream;
+	}
+
+	stream.write(reinterpret_cast<const char*>(&course.id), sizeof(size_t));
+	stream.write(reinterpret_cast<const char*>(&course.creatorId), sizeof(size_t));
+	stream << course.name;
+	stream << course.password;
+	stream << course.teacherIds;
+	stream << course.studentIds;
+	stream << course.assignmentIds;
+
+	return stream;
 }

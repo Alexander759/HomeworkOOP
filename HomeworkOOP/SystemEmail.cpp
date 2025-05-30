@@ -24,3 +24,14 @@ const List<size_t>& SystemEmail::getMessagesReceivedIds() const {
 List<size_t>& SystemEmail::getMessagesReceivedIds() {
     return this->messagesReceivedIds;
 }
+
+std::ofstream& operator<<(std::ofstream& stream, const SystemEmail& systemEmail) {
+    if (!stream.is_open()) {
+        return stream;
+    }
+
+    stream << systemEmail.messagesSendIds;
+    stream << systemEmail.messagesReceivedIds;
+
+    return stream;
+}

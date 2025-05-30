@@ -1,5 +1,6 @@
 #include "SystemFunctions.h"
 #include "AssignmentSolution.h"
+#include <cmath>
 
 bool SystemFunctions::validateMessageToAllArgs(const List<MyString>& args) {
     return args.getLength() >= 1;
@@ -31,14 +32,14 @@ bool SystemFunctions::validateMessageArgs(const List<MyString>& args) {
 }
 
 CommandResponse SystemFunctions::message(System& system, const List<MyString>& args) {
-    size_t id = atoi(args[0].getCString());
+    size_t id = args[0].toSizeT();
 
     User& sender = system.getUser();
-    /*if (sender.getId() == id) {
-        return CommandResponse(false, "User shouldn't send message to himeself");
-    }???*/
+    if (sender.getId() == id) {
+        return CommandResponse(false, "Message to others");
+    }
     
-    User& receiver = system.getUsers().FirstOrDefault([id](const User& u) -> bool {return u.getId() == id; });
+    User& receiver = system.getUsers().FirstOrDefault([id](const User& user) -> bool {return user.getId() == id; });
 
     if (receiver.getId() != id) {
         return CommandResponse(false, "User not found");
@@ -72,7 +73,7 @@ CommandResponse SystemFunctions::login(System& system, const List<MyString>& arg
         return CommandResponse(false, "Logout first");
     }
 
-    size_t id =  atoi(args[0].getCString());
+    size_t id =  args[0].toSizeT();
 
     User& user = system.getUsers().FirstOrDefault([id](const User& user) -> bool {return user.getId() == id; });
 
@@ -208,19 +209,25 @@ CommandResponse SystemFunctions::addToCourse(System& system, const List<MyString
         return CommandResponse(false, "Course not found");
     }
 
-    size_t studentId = atoi(args[1].getCString());
-    User student = system.getUsers().FirstOrDefault([studentId](const User& user) -> bool {return user.getId() == studentId; });
+    size_t studentId = args[1].toSizeT();
+    User& student = system.getUsers().FirstOrDefault([studentId](const User& user) -> bool {return user.getId() == studentId; });
     
-    if (!student.isInRole(Role::Student)) {
-        return CommandResponse(false, "Adding non students is not allowed"); // ?????
-
-    }
-
     if (student.getId() != studentId) {
         return CommandResponse(false, "Student not found");
     }
 
+    if (!student.isInRole(Role::Student)) {
+        return CommandResponse(false, "Adding non students is not allowed"); 
+    }
+
     course.getStudentIds().add(studentId);
+
+    MyString messageContent = system.getUser().getFullName() + " added you to " + course.getName();
+    List<MyString> emailArgs;
+    emailArgs.add(MyString(studentId));
+    emailArgs.add(messageContent);
+    SystemFunctions::message(system, emailArgs);
+
     return CommandResponse(true, "");
 }
 
@@ -447,7 +454,7 @@ CommandResponse SystemFunctions::viewAssignmentSubmissions(System& system, const
 }
 
 bool SystemFunctions::validateGradeAssignment(const List<MyString>& args) {
-    return args.getLength() >= 5 && args[2].isSizeT();
+    return args.getLength() >= 5 && args[2].isSizeT() && args[3].isDouble();
 }
 
 CommandResponse SystemFunctions::gradeAssignment(System& system, const List<MyString>& args) {
@@ -464,7 +471,7 @@ CommandResponse SystemFunctions::gradeAssignment(System& system, const List<MySt
         return CommandResponse(false, "Assignment not found");
     }
 
-    size_t studentId = atoi(args[3].getCString());
+    size_t studentId = args[2].toSizeT();
     User& student = system.getUsers().FirstOrDefault([studentId](const User& user) -> bool {return user.getId() == studentId; });
 
     if (student.getId() != studentId) {
@@ -484,14 +491,14 @@ CommandResponse SystemFunctions::gradeAssignment(System& system, const List<MySt
 
 
     MyString message;
-    for (size_t i = 5; i < args.getLength(); i++) {
+    for (size_t i = 4; i < args.getLength(); i++) {
         message += args[i] + " ";
     }
 
     message = message.subStr(0, message.getLength() - 1);
 
 
-    Grade grade((double)atoi(args[4].getCString()), student.getId(), assignment.getId(),
+    Grade grade(args[3].toDouble(), student.getId(), assignment.getId(),
         system.getUser().getId(), message);
     system.getGrades().add(grade);
 
@@ -541,7 +548,7 @@ CommandResponse SystemFunctions::viewGrades(System& system, const List<MyString>
                 continue;
             }
 
-            message += course.getName() + " | " + assignment.getName() + " | " + grade.getGrade() + " | " + grade.getMessage() + "\n";
+            message += course.getName() + " | " + assignment.getName() + " | " + (std::round(grade.getGrade() * 100) / 100) + " | " + grade.getMessage() + "\n";
         }
     }
 
@@ -552,8 +559,5 @@ CommandResponse SystemFunctions::viewGrades(System& system, const List<MyString>
         message = message.subStr(0, message.getLength() - 1);
     }
 
-
     return CommandResponse(true, message);
 }
-
-

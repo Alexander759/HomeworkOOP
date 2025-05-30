@@ -9,7 +9,7 @@
 
 class System {
 public:
-	System();
+	System(const MyString& filename);
 	~System();
 
 	void start();
@@ -30,16 +30,19 @@ public:
 	void setCurrentlyLoggedInId(size_t currentlyLoggedInId);
 	User& getUser();
 
-
 	List<User>& getUsers();
 	List<Message>& getMessages();
-	List<Command>& getCommands();
 	List<Course>& getCourses();
 	List<Assignment>& getAssignments();
 	List<AssignmentSolution>& getAssignmentSolutions();
 	List<Grade>& getGrades();
 
+	List<Command>& getCommands();
+
+	void saveToFile() const;
+	void readFromFile();
 private:
+	MyString fileName;
 	bool isCurrentlyLoggedIn;
 	size_t currentlyLoggedInId;
 	List<User> users;
