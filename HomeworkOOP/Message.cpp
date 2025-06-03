@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "Message.h"
 
 size_t Message::currentId = 1;

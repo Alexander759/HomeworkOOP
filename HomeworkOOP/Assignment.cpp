@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "Assignment.h"
 
 size_t Assignment::currentId = 1;

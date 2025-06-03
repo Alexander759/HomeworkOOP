@@ -1,3 +1,9 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
+
 #include "Time.h"
 #include <ctime>
 

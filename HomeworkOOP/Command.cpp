@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "Command.h"
 #include "System.h"
 #include <stdexcept>
@@ -36,7 +41,6 @@ CommandResponse Command::run(System& system, const List<MyString>& args) {
 	}
 
 	return this->commandPtr(system, args);
-	system.saveToFile();
 }
 
 bool Command::userHasAllowedRole(const List<Role>& roles) {

@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #pragma once
 #include "User.h"
 #include <fstream>

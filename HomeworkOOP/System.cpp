@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "System.h"
 #include <stdexcept>
 #include <fstream>
@@ -8,11 +13,6 @@ System::System(const MyString& fileName) {
     this->isCurrentlyLoggedIn = false;
     this->currentlyLoggedInId = 0;
     this->fileName = fileName;
-    this->readFromFile();
-}
-
-System::~System() {
-    int a = 0;
 }
 
 void System::start() {
@@ -21,6 +21,10 @@ void System::start() {
     
         if (commandList.getLength() == 0) {
             continue;
+        }
+
+        if (commandList[0] == "exit") {
+            break;
         }
 
         Command& command = this->commands.FirstOrDefault([commandList](const Command& command)

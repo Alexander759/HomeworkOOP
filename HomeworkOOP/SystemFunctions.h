@@ -1,10 +1,17 @@
 #pragma once
 #include "MyString.h"
 #include "CommandResponse.h"
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "System.h"
 
 class SystemFunctions {
 public:
+	static void addCommands(System& system);
+
 	static bool validateMessageToAllArgs(const List<MyString>& args);
 	static CommandResponse messageToAll(System& system, const List<MyString>& args);
 
@@ -31,6 +38,9 @@ public:
 
 	static bool validateAddStudent(const List<MyString>& args);
 	static CommandResponse addStudent(System& system, const List<MyString>& args);
+
+	static bool validateDeleteUser(const List<MyString>& args);
+	static CommandResponse deleteUser(System& system, const List<MyString>& args);
 
 	static bool validateChangePassword(const List<MyString>& args);
 	static CommandResponse changePassword(System& system, const List<MyString>& args);

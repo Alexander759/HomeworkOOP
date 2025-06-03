@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "MyString.h"
 #include <iostream>
 #include <cstring>
@@ -211,15 +216,6 @@ List<MyString> MyString::separate(char separator) const {
 
 size_t MyString::getLength() const {
     return this->length;
-}
-
-void MyString::serialize(std::ofstream& stream) const {
-    if (!stream.is_open()) {
-        return;
-    }
-
-    stream << this->length;
-    stream << this->content;
 }
 
 bool MyString::operator==(const MyString& other) const {

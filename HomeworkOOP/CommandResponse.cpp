@@ -1,3 +1,9 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
+
 #include "CommandResponse.h"
 
 CommandResponse::CommandResponse(bool success, MyString message) : success(success), message(message) {

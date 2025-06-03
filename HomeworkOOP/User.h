@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #pragma once
 #include "MyString.h"
 #include "SystemEmail.h"
@@ -9,7 +14,8 @@ public:
 	User(const MyString& firstName, const MyString& lastName, const MyString& password, const List<Role>& roles);
 	virtual ~User() = default;
 
-	const size_t getId() const;
+	size_t getId() const;
+	bool getIsDeleted() const;
 	const MyString& getFirstName() const;
 	const MyString& getLastName() const;
 	const MyString getFullName() const;
@@ -24,7 +30,7 @@ public:
 	friend std::ofstream& operator<<(std::ofstream& stream, const User& user);
 	friend std::ifstream& operator>>(std::ifstream& stream, User& user);
 
-
+	void setIsDeleted(bool isDeleted);
 	void setFirstName(const MyString& newFirstName);
 	void setLastName(const MyString& newLastName);
 	void setPassword(const MyString& password);
@@ -35,6 +41,7 @@ public:
 	static size_t getCurrentId();
 	static void setCurrentId(size_t currentId);
 private:
+	bool isDeleted;
 	size_t id;
 	MyString firstName;
 	MyString lastName;

@@ -2,6 +2,11 @@
 #include "Role.h"
 #include "List.hpp"
 #include "CommandResponse.h"
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "User.h"
 
 class System;

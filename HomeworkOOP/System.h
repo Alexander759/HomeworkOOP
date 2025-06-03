@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #pragma once
 #include "User.h"
 #include "Message.h"
@@ -10,7 +15,7 @@
 class System {
 public:
 	System(const MyString& filename);
-	~System();
+	~System() = default;
 
 	void start();
 

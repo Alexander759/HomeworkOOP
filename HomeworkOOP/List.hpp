@@ -1,7 +1,14 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #pragma once
 #include <stdexcept>
 #include <fstream>
 #include "Role.h"
+
+class SystemEmail;
 
 template <typename T>
 class List {
@@ -260,7 +267,7 @@ inline std::ifstream& operator>>(std::ifstream& stream, List<size_t>& list) {
 	list.free();
 	stream.read(reinterpret_cast<char*>(&list.length), sizeof(size_t));
 	stream.read(reinterpret_cast<char*>(&list.capacity), sizeof(size_t));
-	list.content = new size_t[list.length];
+	list.content = new size_t[list.capacity];
 	for (size_t i = 0; i < list.length; i++) {
 		stream.read(reinterpret_cast<char*>(&list.content[i]), sizeof(size_t));
 	}
@@ -276,7 +283,7 @@ inline std::ifstream& operator>>(std::ifstream& stream, List<Role>& list) {
 	list.free();
 	stream.read(reinterpret_cast<char*>(&list.length), sizeof(size_t));
 	stream.read(reinterpret_cast<char*>(&list.capacity), sizeof(size_t));
-	list.content = new Role[list.length];
+	list.content = new Role[list.capacity];
 	for (size_t i = 0; i < list.length; i++) {
 		stream.read(reinterpret_cast<char*>(&list.content[i]), sizeof(Role));
 	}
@@ -339,6 +346,7 @@ inline void List<T>::copyFrom(const List<T>& other) {
 template<class T>
 inline void List<T>::free() {
 	delete[] this->content;
+	this->content = nullptr;
 	this->length = 0;
 	this->capacity = 0;
 }
@@ -388,10 +396,6 @@ inline T& List<T>::FirstOrDefault(CallableType func) {
 		if (func(this->content[i])) {
 			return this->content[i];
 		}
-	}
-
-	if (this->length == 0) {
-		throw std::out_of_range("No elements");
 	}
 
 	return this->content[0];

@@ -1,4 +1,9 @@
 #pragma once
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "List.hpp"
 #include "Message.h"
 

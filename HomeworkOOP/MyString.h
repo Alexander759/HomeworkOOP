@@ -1,3 +1,8 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #pragma once
 #include <iostream>
 #include <fstream>
@@ -22,7 +27,6 @@ public:
 	MyString subStr(size_t start, size_t end) const;
 	List<MyString> separate(char separator = ' ') const;
 	size_t getLength() const;
-	void serialize(std::ofstream& stream) const;
 	bool operator==(const MyString& other) const;
 	bool operator!=(const MyString& other) const;
 	bool operator>(const MyString& other) const;

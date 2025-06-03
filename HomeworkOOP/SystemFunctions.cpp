@@ -1,6 +1,131 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "SystemFunctions.h"
 #include "AssignmentSolution.h"
 #include <cmath>
+
+void SystemFunctions::addCommands(System& system) {
+    Command login("login", "[id] [password]",
+        SystemFunctions::validateLogin, SystemFunctions::login, List<Role>());
+    login.addRole(Role::Guest);
+    system.getCommands().add(login);
+
+    Command logout(Command("logout", "[no arguments]",
+        SystemFunctions::validateLogout, SystemFunctions::logout, List<Role>()));
+    logout.addRole(Role::Guest);
+    system.getCommands().add(logout);
+
+    Command messageToAll("message_all", "[text]",
+        SystemFunctions::validateMessageToAllArgs, SystemFunctions::messageToAll, List<Role>());
+    messageToAll.addRole(Role::Admin);
+    system.getCommands().add(messageToAll);
+
+    Command message("message", "[userId] [text]",
+        SystemFunctions::validateMessageArgs, SystemFunctions::message, List<Role>());
+    message.addRole(Role::Admin);
+    message.addRole(Role::Teacher);
+    message.addRole(Role::Student);
+    system.getCommands().add(message);
+
+    Command mailBox("mailbox", "[no arguments]",
+        SystemFunctions::validateMailBox, SystemFunctions::mailBox, List<Role>());
+    mailBox.addRole(Role::Admin);
+    mailBox.addRole(Role::Student);
+    mailBox.addRole(Role::Teacher);
+    system.getCommands().add(mailBox);
+
+    Command clearMailBox("clear_mailbox", "[no arguments]",
+        SystemFunctions::validateClearMailBox, SystemFunctions::clearMailBox, List<Role>());
+    clearMailBox.addRole(Role::Admin);
+    clearMailBox.addRole(Role::Teacher);
+    clearMailBox.addRole(Role::Student);
+    system.getCommands().add(clearMailBox);
+
+    Command viewMailBox("view_mailbox", "[userId]",
+        SystemFunctions::validateViewMailBox, SystemFunctions::viewMailBox, List<Role>());
+    viewMailBox.addRole(Role::Admin);
+    system.getCommands().add(viewMailBox);
+
+    Command addTeacher("add_teacher", "[firstName] [lastName] [password]",
+        SystemFunctions::validateAddTeacher, SystemFunctions::addTeacher, List<Role>());
+    addTeacher.addRole(Role::Admin);
+    system.getCommands().add(addTeacher);
+
+    Command addStudent("add_student", "[firstName] [lastName] [password]",
+        SystemFunctions::validateAddStudent, SystemFunctions::addStudent, List<Role>());
+    addStudent.addRole(Role::Admin);
+    system.getCommands().add(addStudent);
+
+    Command deleteUser("delete_user", "[userId]",
+        SystemFunctions::validateDeleteUser, SystemFunctions::deleteUser, List<Role>());
+    deleteUser.addRole(Role::Admin);
+    system.getCommands().add(deleteUser);
+
+    Command changePassword("change_password", "[oldPassword] [newPassword]",
+        SystemFunctions::validateChangePassword, SystemFunctions::changePassword, List<Role>());
+    changePassword.addRole(Role::Admin);
+    changePassword.addRole(Role::Teacher);
+    changePassword.addRole(Role::Student);
+    system.getCommands().add(changePassword);
+
+    Command createCourse("create_course", "[courseName]",
+        SystemFunctions::validateCreateCourse, SystemFunctions::createCourse, List<Role>());
+    createCourse.addRole(Role::Teacher);
+    system.getCommands().add(createCourse);
+
+    Command addToCourse("add_to_course", "[courseName] [studentID]",
+        SystemFunctions::validateAddToCourse, SystemFunctions::addToCourse, List<Role>());
+    addToCourse.addRole(Role::Teacher);
+    system.getCommands().add(addToCourse);
+
+    Command messageToStudents("message_students", "[courseName] [text]",
+        SystemFunctions::validateMessageToStudents, SystemFunctions::messageToStudents, List<Role>());
+    messageToStudents.addRole(Role::Teacher);
+    system.getCommands().add(messageToStudents);
+
+    Command enroll("enroll", "[courseName] [coursePassword]",
+        SystemFunctions::validateEnroll, SystemFunctions::enroll, List<Role>());
+    enroll.addRole(Role::Student);
+    system.getCommands().add(enroll);
+
+    Command assignHomework("assign_homework", "[courseName] [assignmentName]",
+        SystemFunctions::validateAssignHomework, SystemFunctions::assignHomework, List<Role>());
+    assignHomework.addRole(Role::Teacher);
+    system.getCommands().add(assignHomework);
+
+    Command viewHomework("view_homework", "[no arguments]",
+        SystemFunctions::validateViewHomework, SystemFunctions::viewHomework, List<Role>());
+    viewHomework.addRole(Role::Student);
+    system.getCommands().add(viewHomework);
+
+    Command submitAssignment("submit_assignment", "[courseName] [assignmentName] [text]",
+        SystemFunctions::validateSubmitAssignment, SystemFunctions::submitAssignment, List<Role>());
+    submitAssignment.addRole(Role::Student);
+    system.getCommands().add(submitAssignment);
+
+    Command viewAssignmentSubmissions("view_assignment_submissions", "[courseName] [assignmentName]",
+        SystemFunctions::validateViewAssignmentSubmissions, SystemFunctions::viewAssignmentSubmissions, List<Role>());
+    viewAssignmentSubmissions.addRole(Role::Teacher);
+    system.getCommands().add(viewAssignmentSubmissions);
+
+    Command gradeAssignment("grade_assignment", "[courseName] [assignmentName] [studentID] [Grade] [Message]",
+        SystemFunctions::validateGradeAssignment, SystemFunctions::gradeAssignment, List<Role>());
+    gradeAssignment.addRole(Role::Teacher);
+    system.getCommands().add(gradeAssignment);
+
+    Command viewGrades("grades", "[no arguments]",
+        SystemFunctions::validateViewGrades, SystemFunctions::viewGrades, List<Role>());
+    viewGrades.addRole(Role::Student);
+    system.getCommands().add(viewGrades);
+
+    Command help("help", "[no arguments]",
+        SystemFunctions::validateHelp, SystemFunctions::help, List<Role>());
+    help.addRole(Role::Guest);
+    system.getCommands().add(help);
+}
 
 bool SystemFunctions::validateMessageToAllArgs(const List<MyString>& args) {
     return args.getLength() >= 1;
@@ -55,7 +180,7 @@ CommandResponse SystemFunctions::message(System& system, const List<MyString>& a
 
     Message message(sender.getId(), messageContent);
     system.getMessages().add(message);
-    receiver.getMailBox().getNewMessage(message.getId());
+    receiver.getNewMessage(message.getId());
 
     return CommandResponse(true, "");
 }
@@ -81,6 +206,10 @@ CommandResponse SystemFunctions::login(System& system, const List<MyString>& arg
         return CommandResponse(false, "Id not found");
     }
 
+    if (user.getIsDeleted()) {
+        return CommandResponse(false, "User is deleted");
+    }
+
     if (user.getPassword() != args[1]) {
         return CommandResponse(false, "Wrong password");
     }
@@ -104,7 +233,7 @@ CommandResponse SystemFunctions::logout(System& system, const List<MyString>& ar
     }
 
     system.setIsCurrentlyLoggedIn(false);
-    return CommandResponse(true, "Logged out");
+    return CommandResponse(true, "");
 }
 
 bool SystemFunctions::validateMailBox(const List<MyString>& args) {
@@ -203,6 +332,31 @@ CommandResponse SystemFunctions::addStudent(System& system, const List<MyString>
     return CommandResponse(true, MyString("Added student ") + student.getFullName() + " with ID " + student.getId() + "!");
 }
 
+bool SystemFunctions::validateDeleteUser(const List<MyString>& args) {
+    return args.getLength() == 1 && args[0].isSizeT();
+}
+
+CommandResponse SystemFunctions::deleteUser(System& system, const List<MyString>& args) {
+    
+    size_t userId = args[0].toSizeT();
+    User& user = system.getUsers().FirstOrDefault([userId](const User& user) -> bool {return user.getId() == userId; });
+
+    if (user.getId() != userId) {
+        return CommandResponse(false, "User not found");
+    }
+
+    if (user.getIsDeleted()) {
+        return CommandResponse(false, "User is deleted already");
+    }
+
+    if (user == system.getUser()) {
+        return CommandResponse(false, "Can not delete current user");
+    }
+
+    user.setIsDeleted(true);
+    return CommandResponse(true, "");
+}
+
 bool SystemFunctions::validateChangePassword(const List<MyString>& args) {
     return args.getLength() == 2;
 }
@@ -237,6 +391,10 @@ bool SystemFunctions::validateAddToCourse(const List<MyString>& args) {
 }
 
 CommandResponse SystemFunctions::addToCourse(System& system, const List<MyString>& args) {
+    if (system.getCourses().getLength() == 0) {
+        return CommandResponse(false, "Course not found");
+    }
+    
     Course& course = system.getCourses().FirstOrDefault([args](const Course& course) -> bool {return course.getName() == args[0]; });
 
     if (course.getName() != args[0]) {
@@ -615,7 +773,7 @@ CommandResponse SystemFunctions::help(System& system, const List<MyString>& args
         }
     }
 
-    message = message.subStr(0, message.getLength() - 1);
+    message += "exit - exit the app";
 
     return CommandResponse(true, message);
 }

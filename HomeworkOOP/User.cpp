@@ -1,8 +1,14 @@
+/*
+* @author Alexander Asenov
+* @idnumber 2MI0600422
+* @compiler VCC
+*/
 #include "User.h"
 
 size_t User::currentId = 0;
 
 User::User(const MyString& firstName, const MyString& lastName, const MyString& password, const List<Role>& roles) {
+    this->isDeleted = false;
     this->id = currentId;
     currentId++;
     this->setFirstName(firstName);
@@ -11,8 +17,12 @@ User::User(const MyString& firstName, const MyString& lastName, const MyString& 
     this->roles = roles;
 }
 
-const size_t User::getId() const {
+size_t User::getId() const {
     return this->id;
+}
+
+bool User::getIsDeleted() const {
+    return this->isDeleted;
 }
 
 const MyString& User::getFirstName() const {
@@ -83,6 +93,10 @@ bool User::operator!=(const User& user) const {
     return this->id != user.id;
 }
 
+void User::setIsDeleted(bool isDeleted) {
+    this->isDeleted = isDeleted;
+}
+
 void User::setFirstName(const MyString& newFirstName) {
     this->firstName = newFirstName;
 }
@@ -124,6 +138,7 @@ std::ofstream& operator<<(std::ofstream& stream, const User& user) {
         return stream;
     }
 
+    stream.write(reinterpret_cast<const char*>(&user.isDeleted), sizeof(bool));
     stream.write(reinterpret_cast<const char*>(&user.id), sizeof(size_t));
 
     stream << user.firstName;
@@ -140,6 +155,7 @@ std::ifstream& operator>>(std::ifstream& stream, User& user) {
         return stream;
     }
 
+    stream.read(reinterpret_cast<char*>(&user.isDeleted), sizeof(bool));
     stream.read(reinterpret_cast<char*>(&user.id), sizeof(size_t));
 
     stream >> user.firstName;
