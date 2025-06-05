@@ -21,9 +21,8 @@ int main() {
 	/*User admin("admin", "", "0000", List<Role>());
 	admin.addRole(Role::Admin);
 	admin.addRole(Role::Guest);
-	app.getUsers().add(admin);*/
-
-	User::setCurrentId(100);
+	app.getUsers().add(admin);
+	User::setCurrentId(100);*/
 
 	SystemFunctions::addCommands(app);
 
